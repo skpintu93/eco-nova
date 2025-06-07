@@ -11,7 +11,9 @@
     "export-content-types": "node --loader ts-node/esm scripts/export-content-types.ts",
     "add-entries": "node --loader ts-node/esm scripts/add-entries.ts",
     "publish-entries": "node --loader ts-node/esm scripts/publish-entries.ts",
-    "add-landing-page": "node --loader ts-node/esm scripts/add-landing-page.ts"
+    "add-landing-page": "node --loader ts-node/esm scripts/add-landing-page.ts",
+    "setup-localization": "node --loader ts-node/esm scripts/setup-localization.ts",
+    "draft-entries": "node --loader ts-node/esm scripts/draft-entries.ts"
   },
   "dependencies": {
     "@contentful/rich-text-react-renderer": "^16.0.1",
