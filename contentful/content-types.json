@@ -1,0 +1,975 @@
+[
+  {
+    "id": "heroSection",
+    "name": "Hero Section",
+    "displayField": "title",
+    "description": "",
+    "fields": [
+      {
+        "id": "title",
+        "name": "Title",
+        "type": "Symbol",
+        "required": true,
+        "localized": false,
+        "validations": []
+      },
+      {
+        "id": "subtitle",
+        "name": "Subtitle",
+        "type": "Text",
+        "required": false,
+        "localized": false,
+        "validations": []
+      },
+      {
+        "id": "backgroundImagevideo",
+        "name": "Background Image/Video",
+        "type": "Link",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "linkMimetypeGroup": [
+              "image",
+              "video"
+            ]
+          }
+        ],
+        "linkType": "Asset"
+      },
+      {
+        "id": "ctaButton",
+        "name": "CTA Button",
+        "type": "Link",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "linkContentType": [
+              "button"
+            ]
+          }
+        ],
+        "linkType": "Entry",
+        "linkContentType": [
+          "button"
+        ]
+      },
+      {
+        "id": "alignment",
+        "name": "Alignment",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "left",
+              "center",
+              "right"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "center"
+        }
+      },
+      {
+        "id": "backgroundColor",
+        "name": "Background Color",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": []
+      },
+      {
+        "id": "overlayOpacity",
+        "name": "Overlay Opacity",
+        "type": "Number",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "range": {
+              "min": 0,
+              "max": 1
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "ctaBlock",
+    "name": "CTA Block",
+    "displayField": "title",
+    "description": "",
+    "fields": [
+      {
+        "id": "title",
+        "name": "Title",
+        "type": "Symbol",
+        "required": true,
+        "localized": false,
+        "validations": []
+      },
+      {
+        "id": "subtitle",
+        "name": "Subtitle",
+        "type": "Text",
+        "required": false,
+        "localized": false,
+        "validations": []
+      },
+      {
+        "id": "primaryButton",
+        "name": "Primary Button",
+        "type": "Link",
+        "required": true,
+        "localized": false,
+        "validations": [
+          {
+            "linkContentType": [
+              "button"
+            ]
+          }
+        ],
+        "linkType": "Entry",
+        "linkContentType": [
+          "button"
+        ]
+      },
+      {
+        "id": "secondaryButton",
+        "name": "Secondary Button",
+        "type": "Link",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "linkContentType": [
+              "button"
+            ]
+          }
+        ],
+        "linkType": "Entry",
+        "linkContentType": [
+          "button"
+        ]
+      },
+      {
+        "id": "alignment",
+        "name": "Alignment",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "left",
+              "center",
+              "right"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "center"
+        }
+      },
+      {
+        "id": "backgroundImage",
+        "name": "Background Image",
+        "type": "Link",
+        "required": false,
+        "localized": false,
+        "validations": [],
+        "linkType": "Asset"
+      }
+    ]
+  },
+  {
+    "id": "landingPage",
+    "name": "Landing Page",
+    "displayField": "title",
+    "description": "",
+    "fields": [
+      {
+        "id": "title",
+        "name": "Title",
+        "type": "Symbol",
+        "required": true,
+        "localized": false,
+        "validations": []
+      },
+      {
+        "id": "slug",
+        "name": "Slug",
+        "type": "Symbol",
+        "required": true,
+        "localized": false,
+        "validations": [
+          {
+            "unique": true
+          }
+        ]
+      },
+      {
+        "id": "metaDescription",
+        "name": "Meta Description",
+        "type": "Text",
+        "required": false,
+        "localized": false,
+        "validations": []
+      },
+      {
+        "id": "metaImage",
+        "name": "Meta Image",
+        "type": "Link",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "linkMimetypeGroup": [
+              "image"
+            ]
+          }
+        ],
+        "linkType": "Asset"
+      },
+      {
+        "id": "sections",
+        "name": "Sections",
+        "type": "Array",
+        "required": true,
+        "localized": false,
+        "validations": []
+      },
+      {
+        "id": "status",
+        "name": "Status",
+        "type": "Symbol",
+        "required": true,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "draft",
+              "published"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "section",
+    "name": "Section",
+    "displayField": "type",
+    "description": "",
+    "fields": [
+      {
+        "id": "type",
+        "name": "Type",
+        "type": "Symbol",
+        "required": true,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "hero",
+              "features",
+              "testimonials",
+              "productSpecs",
+              "cta"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "content",
+        "name": "Content",
+        "type": "Link",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "linkContentType": [
+              "ctaSection",
+              "featuresSection",
+              "heroSection",
+              "productSpecsSection",
+              "testimonialsSection"
+            ]
+          }
+        ],
+        "linkType": "Entry",
+        "linkContentType": [
+          "ctaSection",
+          "featuresSection",
+          "heroSection",
+          "productSpecsSection",
+          "testimonialsSection"
+        ]
+      },
+      {
+        "id": "padding",
+        "name": "Padding",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "small",
+              "medium",
+              "large"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "margin",
+        "name": "Margin",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "small",
+              "medium",
+              "large"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "backgroundColor",
+        "name": "Background Color",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": []
+      }
+    ]
+  },
+  {
+    "id": "ctaSection",
+    "name": "CTA Section",
+    "displayField": "title",
+    "description": "",
+    "fields": [
+      {
+        "id": "title",
+        "name": "Title",
+        "type": "Symbol",
+        "required": true,
+        "localized": false,
+        "validations": []
+      },
+      {
+        "id": "subtitle",
+        "name": "Subtitle",
+        "type": "Text",
+        "required": false,
+        "localized": false,
+        "validations": []
+      },
+      {
+        "id": "ctaBlock",
+        "name": "CTA Block",
+        "type": "Link",
+        "required": true,
+        "localized": false,
+        "validations": [
+          {
+            "linkContentType": [
+              "ctaBlock"
+            ]
+          }
+        ],
+        "linkType": "Entry",
+        "linkContentType": [
+          "ctaBlock"
+        ]
+      },
+      {
+        "id": "backgroundImage",
+        "name": "Background Image",
+        "type": "Link",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "linkMimetypeGroup": [
+              "image"
+            ]
+          }
+        ],
+        "linkType": "Asset"
+      },
+      {
+        "id": "backgroundColor",
+        "name": "Background Color",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": []
+      },
+      {
+        "id": "overlayOpacity",
+        "name": "Overlay Opacity",
+        "type": "Number",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "range": {
+              "min": 0,
+              "max": 1
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "productSpecsSection",
+    "name": "Product Specs Section",
+    "displayField": "title",
+    "description": "",
+    "fields": [
+      {
+        "id": "title",
+        "name": "Title",
+        "type": "Symbol",
+        "required": true,
+        "localized": false,
+        "validations": []
+      },
+      {
+        "id": "subtitle",
+        "name": "Subtitle",
+        "type": "Text",
+        "required": false,
+        "localized": false,
+        "validations": []
+      },
+      {
+        "id": "specs",
+        "name": "Specs",
+        "type": "Array",
+        "required": false,
+        "localized": false,
+        "validations": []
+      },
+      {
+        "id": "layout",
+        "name": "Layout",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "table",
+              "grid",
+              "list"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "backgroundColor",
+        "name": "Background Color",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": []
+      }
+    ]
+  },
+  {
+    "id": "productSpec",
+    "name": "Product Spec",
+    "displayField": "name",
+    "description": "",
+    "fields": [
+      {
+        "id": "name",
+        "name": "Name",
+        "type": "Symbol",
+        "required": true,
+        "localized": false,
+        "validations": []
+      },
+      {
+        "id": "value",
+        "name": "Value",
+        "type": "Symbol",
+        "required": true,
+        "localized": false,
+        "validations": []
+      },
+      {
+        "id": "unit",
+        "name": "Unit",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": []
+      },
+      {
+        "id": "icon",
+        "name": "Icon",
+        "type": "Link",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "linkMimetypeGroup": [
+              "image"
+            ]
+          }
+        ],
+        "linkType": "Asset"
+      },
+      {
+        "id": "description",
+        "name": "Description",
+        "type": "Text",
+        "required": false,
+        "localized": false,
+        "validations": []
+      }
+    ]
+  },
+  {
+    "id": "testimonialsSection",
+    "name": "Testimonials Section",
+    "displayField": "title",
+    "description": "",
+    "fields": [
+      {
+        "id": "title",
+        "name": "Title",
+        "type": "Symbol",
+        "required": true,
+        "localized": false,
+        "validations": []
+      },
+      {
+        "id": "subtitle",
+        "name": "Subtitle",
+        "type": "Text",
+        "required": false,
+        "localized": false,
+        "validations": []
+      },
+      {
+        "id": "testimonials",
+        "name": "Testimonials",
+        "type": "Link",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "linkContentType": [
+              "testimonial"
+            ]
+          }
+        ],
+        "linkType": "Entry",
+        "linkContentType": [
+          "testimonial"
+        ]
+      },
+      {
+        "id": "layout",
+        "name": "Layout",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "grid",
+              "carousel",
+              "list"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "grid"
+        }
+      },
+      {
+        "id": "backgroundColor",
+        "name": "Background Color",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": []
+      }
+    ]
+  },
+  {
+    "id": "testimonial",
+    "name": "Testimonial",
+    "displayField": "quote",
+    "description": "",
+    "fields": [
+      {
+        "id": "quote",
+        "name": "Quote",
+        "type": "Text",
+        "required": true,
+        "localized": false,
+        "validations": []
+      },
+      {
+        "id": "authorName",
+        "name": "Author Name",
+        "type": "Symbol",
+        "required": true,
+        "localized": false,
+        "validations": []
+      },
+      {
+        "id": "authorTitle",
+        "name": "Author Title",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": []
+      },
+      {
+        "id": "authorImage",
+        "name": "Author Image",
+        "type": "Link",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "linkMimetypeGroup": [
+              "image"
+            ]
+          }
+        ],
+        "linkType": "Asset"
+      },
+      {
+        "id": "rating",
+        "name": "Rating",
+        "type": "Integer",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "range": {
+              "min": 1,
+              "max": 5
+            }
+          }
+        ]
+      },
+      {
+        "id": "company",
+        "name": "Company",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": []
+      }
+    ]
+  },
+  {
+    "id": "featuresSection",
+    "name": "Features Section",
+    "displayField": "title",
+    "description": "",
+    "fields": [
+      {
+        "id": "title",
+        "name": "Title",
+        "type": "Symbol",
+        "required": true,
+        "localized": false,
+        "validations": []
+      },
+      {
+        "id": "longText",
+        "name": "Long text",
+        "type": "Text",
+        "required": false,
+        "localized": false,
+        "validations": []
+      },
+      {
+        "id": "features",
+        "name": "Features",
+        "type": "Array",
+        "required": false,
+        "localized": false,
+        "validations": []
+      },
+      {
+        "id": "layout",
+        "name": "Layout",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "grid",
+              "list",
+              "cards"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "grid"
+        }
+      },
+      {
+        "id": "columns",
+        "name": "Columns",
+        "type": "Integer",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "range": {
+              "min": 1,
+              "max": 4
+            }
+          }
+        ]
+      },
+      {
+        "id": "backgroundColor",
+        "name": "Background Color",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": []
+      }
+    ]
+  },
+  {
+    "id": "featureItem",
+    "name": "Feature Item",
+    "displayField": "title",
+    "description": "",
+    "fields": [
+      {
+        "id": "title",
+        "name": "Title",
+        "type": "Symbol",
+        "required": true,
+        "localized": false,
+        "validations": []
+      },
+      {
+        "id": "description",
+        "name": "Description",
+        "type": "Text",
+        "required": false,
+        "localized": false,
+        "validations": []
+      },
+      {
+        "id": "icon",
+        "name": "Icon",
+        "type": "Link",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "linkMimetypeGroup": [
+              "image"
+            ]
+          }
+        ],
+        "linkType": "Asset"
+      },
+      {
+        "id": "link",
+        "name": "Link",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": []
+      }
+    ]
+  },
+  {
+    "id": "socialLink",
+    "name": "Social Link",
+    "displayField": "platform",
+    "description": "",
+    "fields": [
+      {
+        "id": "platform",
+        "name": "Platform",
+        "type": "Symbol",
+        "required": true,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "facebook",
+              "twitter",
+              "instagram",
+              "linkedin",
+              "youtube"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "url",
+        "name": "URL",
+        "type": "Symbol",
+        "required": true,
+        "localized": false,
+        "validations": []
+      },
+      {
+        "id": "icon",
+        "name": "Icon",
+        "type": "Link",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "linkMimetypeGroup": [
+              "image"
+            ]
+          }
+        ],
+        "linkType": "Asset"
+      }
+    ]
+  },
+  {
+    "id": "navigationLink",
+    "name": "Navigation Link",
+    "displayField": "text",
+    "description": "",
+    "fields": [
+      {
+        "id": "text",
+        "name": "Text",
+        "type": "Symbol",
+        "required": true,
+        "localized": false,
+        "validations": []
+      },
+      {
+        "id": "url",
+        "name": "URL",
+        "type": "Symbol",
+        "required": true,
+        "localized": false,
+        "validations": []
+      },
+      {
+        "id": "isExternal",
+        "name": "Is External",
+        "type": "Boolean",
+        "required": false,
+        "localized": false,
+        "validations": []
+      },
+      {
+        "id": "children",
+        "name": "Children",
+        "type": "Array",
+        "required": false,
+        "localized": false,
+        "validations": []
+      }
+    ]
+  },
+  {
+    "id": "button",
+    "name": "Button",
+    "displayField": "text",
+    "description": "",
+    "fields": [
+      {
+        "id": "text",
+        "name": "Text",
+        "type": "Symbol",
+        "required": true,
+        "localized": false,
+        "validations": []
+      },
+      {
+        "id": "link",
+        "name": "Link",
+        "type": "Symbol",
+        "required": true,
+        "localized": false,
+        "validations": []
+      },
+      {
+        "id": "variant",
+        "name": "Variant",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "primary",
+              "secondary",
+              "outline"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "primary"
+        }
+      },
+      {
+        "id": "size",
+        "name": "Size",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "small",
+              "medium",
+              "large"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "medium"
+        }
+      },
+      {
+        "id": "icon",
+        "name": "Icon",
+        "type": "Link",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "linkMimetypeGroup": [
+              "image"
+            ]
+          }
+        ],
+        "linkType": "Asset"
+      }
+    ]
+  }
+]
