@@ -89,11 +89,10 @@ export interface TestimonialsSectionFields {
 
 // Product Specs Section
 export interface ProductSpecFields {
-  name: string;
-  value: string;
-  icon?: ContentfulEntry<AssetFields>;
+  title: string;
   description?: string;
-  unit?: string;
+  specifications: string[];
+  images?: ContentfulEntry<AssetFields>[];
 }
 
 export interface ProductSpecsSectionFields {
@@ -104,19 +103,10 @@ export interface ProductSpecsSectionFields {
   backgroundColor?: string;
 }
 
-export interface CTABlockFields {
-  title: string;
-  subtitle?: string;
-  primaryButton?: ContentfulEntry<ButtonFields>;
-  secondaryButton?: ContentfulEntry<ButtonFields>;
-  backgroundImage?: ContentfulEntry<AssetFields>;
-  alignment?: 'center' | 'left' | 'right';
-}
-
 export interface CTASectionFields {
   title: string;
   subtitle?: string;
-  ctaBlock?: ContentfulEntry<CTABlockFields>[];
+  ctaButton?: ContentfulEntry<ButtonFields>;
   backgroundImage?: ContentfulEntry<AssetFields>;
   backgroundColor?: string;
   overlayOpacity?: number;

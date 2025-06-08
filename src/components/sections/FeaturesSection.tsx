@@ -36,7 +36,7 @@ export async function FeaturesSection({
         } gap-12`;
 
   return (
-    <div>
+    <div className="max-w-7xl mx-auto px-4">
       <div className={containerClass}>
         {features.map(
           (feature: ContentfulEntry<FeatureItemFields>, index: number) => (

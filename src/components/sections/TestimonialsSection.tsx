@@ -65,7 +65,7 @@ export async function TestimonialsSection({ section }: { section: ContentfulEntr
   };
 
   return (
-    <div>
+    <div className="max-w-7xl mx-auto px-4">
       {(title || subtitle) && (
         <div className="text-center mb-12">
           {title && (

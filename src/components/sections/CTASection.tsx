@@ -13,37 +13,25 @@ export async function CTASection({ section }: { section: ContentfulEntry<Section
   const {
     title,
     subtitle,
-    ctaBlock = [],
+    ctaButton,
     backgroundImage,
     backgroundColor,
     overlayOpacity = 0.5,
   } = fields;
 
-  // Get the first CTA block for now - we can expand this later if needed
-  const cta = ctaBlock[0]?.fields;
-  const alignment = cta?.alignment || 'center';
-  const buttons: ButtonProps[] = [];
-  
-  if (cta?.primaryButton) {
-    buttons.push(cta.primaryButton.fields);
-  }
-  if (cta?.secondaryButton) {
-    buttons.push(cta.secondaryButton.fields);
-  }
+  const button = ctaButton?.fields;
 
+  const alignment = 'center';
+  
   const buttonVariants: Record<string, string> = {
     primary: 'bg-blue-600 hover:bg-blue-700 text-white',
     secondary: 'bg-white hover:bg-gray-100 text-blue-600',
     outline: 'border-2 border-white hover:bg-white/10 text-white',
   };
 
-  const containerClass = alignment === 'left'
-    ? 'grid md:grid-cols-2 gap-8 items-center'
-    : 'max-w-3xl mx-auto text-center';
+  const containerClass = 'max-w-3xl mx-auto text-center';
 
-  const contentClass = alignment === 'left'
-    ? 'py-8'
-    : 'py-16';
+  const contentClass = 'py-16';
 
   const buttonContainerClass = {
     left: 'justify-start',
@@ -54,8 +42,7 @@ export async function CTASection({ section }: { section: ContentfulEntry<Section
   const textColor = backgroundColor ? 'text-white' : 'text-gray-900';
 
   return (
-    <div>
-      <div className={`relative ${contentClass} ${textColor}`}>
+      <div className={`relative max-w-7xl mx-auto px-4 ${contentClass} ${textColor}`}>
         {backgroundImage && (
           <div 
             className="absolute inset-0 z-0"
@@ -82,11 +69,9 @@ export async function CTASection({ section }: { section: ContentfulEntry<Section
             )}
           </div>
 
-          {buttons.length > 0 && (
+          {button && (
             <div className={`flex flex-col sm:flex-row gap-4 ${buttonContainerClass}`}>
-              {buttons.map((button, index) => (
                 <a
-                  key={index}
                   href={button.link}
                   className={`px-8 py-3 rounded-lg font-semibold text-center transition-colors ${
                     buttonVariants[button.variant || 'primary']
@@ -100,14 +85,12 @@ export async function CTASection({ section }: { section: ContentfulEntry<Section
                       width={button.icon.fields.file.details?.image?.width}
                       height={button.icon.fields.file.details?.image?.height}
                     />
-                  )}
+                  )}    
                   {button.text}
                 </a>
-              ))}
             </div>
           )}
         </div>
       </div>
-    </div>
   );
 } 

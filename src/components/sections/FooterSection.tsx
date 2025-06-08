@@ -13,13 +13,13 @@ export async function FooterSection({ section }: { section: ContentfulEntry<Sect
     socialLinks = [],
     bottomLinks = [],
     copyrightText,
-    backgroundColor = 'bg-gray-900',
-    accentColor = 'text-blue-400',
+    backgroundColor,
+    accentColor ,
     showDivider = true,
     layout = 'standard',
   } = fields;
 
-  const textColor = 'text-gray-300';
+  console.log(fields, 'fields');
 
   const renderSocialLinks = () => {
     if (!socialLinks.length) return null;
@@ -32,7 +32,7 @@ export async function FooterSection({ section }: { section: ContentfulEntry<Sect
             href={link.fields.url}
             target="_blank"
             rel="noopener noreferrer"
-            className={`hover:${accentColor} transition-colors`}
+            className={`transition-colors`}
             aria-label={link.fields.platform}
           >
             {link.fields.icon ? (
@@ -60,7 +60,7 @@ export async function FooterSection({ section }: { section: ContentfulEntry<Sect
         {columns.map((column: ContentfulEntry<FooterColumnFields>) => (
           <div key={column.sys.id}>
             {column.fields.heading && (
-              <h3 className={`text-lg font-semibold mb-4 ${accentColor}`}>
+              <h3 className={`text-lg font-semibold mb-4 `}>
                 {column.fields.heading}
               </h3>
             )}
@@ -70,7 +70,7 @@ export async function FooterSection({ section }: { section: ContentfulEntry<Sect
                   <li key={link.sys.id}>
                     <a
                       href={link.fields.url}
-                      className={`hover:${accentColor} transition-colors`}
+                      className={` transition-colors`}
                     >
                       {link.fields.text}
                     </a>
@@ -98,7 +98,7 @@ export async function FooterSection({ section }: { section: ContentfulEntry<Sect
           <a
             key={link.sys.id}
             href={link.fields.url}
-            className={`hover:${accentColor} transition-colors`}
+            className={`transition-colors`}
           >
             {link.fields.text}
           </a>
@@ -108,16 +108,16 @@ export async function FooterSection({ section }: { section: ContentfulEntry<Sect
   };
 
   return (
-    <div className={`${backgroundColor} ${textColor}`}>
+    <div style={{ backgroundColor: backgroundColor || '#000', color: accentColor || '#fff' }}>
       <div className="max-w-7xl mx-auto px-4 py-12">
         <div className="flex flex-col items-center text-center mb-12">
           {logo && (
             <img
               src={logo.fields.file.url}
               alt={logo.fields.title}
-              className="h-12 mb-4"
-              width={logo.fields.file.details?.image?.width}
-              height={logo.fields.file.details?.image?.height}
+              className="w-14 h-14 object-cover rounded mb-4"
+              width={56}
+              height={56}
             />
           )}
           {tagline && (
@@ -160,9 +160,9 @@ export async function FooterSection({ section }: { section: ContentfulEntry<Sect
                 <img
                   src={logo.fields.file.url}
                   alt={logo.fields.title}
-                  className="h-12 mb-4"
-                  width={logo.fields.file.details?.image?.width}
-                  height={logo.fields.file.details?.image?.height}
+                  className="w-14 h-14 object-cover rounded mb-4"
+                  width={56}
+                  height={56}
                 />
               )}
               {tagline && (
