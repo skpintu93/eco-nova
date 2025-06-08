@@ -1,6 +1,7 @@
 import { ContentfulEntry, FooterSectionFields, SectionFields, SocialLinkFields, FooterColumnFields, NavigationLink } from '@/types/sections';
 import { Section } from './Section';
 import { getEntryById } from '@/lib/contentful';
+import Image from 'next/image';
 
 export async function FooterSection({ section }: { section: ContentfulEntry<SectionFields> }) {
   const entry = await getEntryById<FooterSectionFields>(section.fields.content.sys.id, section.sys.locale);
@@ -36,13 +37,15 @@ export async function FooterSection({ section }: { section: ContentfulEntry<Sect
             aria-label={link.fields.platform}
           >
             {link.fields.icon ? (
-              <img
-                src={link.fields.icon.fields.file.url}
-                alt={link.fields.platform}
-                className="w-6 h-6"
-                width={link.fields.icon.fields.file.details?.image?.width}
-                height={link.fields.icon.fields.file.details?.image?.height}
-              />
+              <div className="relative w-6 h-6">
+                <Image
+                  src={`https:${link.fields.icon.fields.file.url}`}
+                  alt={link.fields.platform}
+                  fill
+                  sizes="24px"
+                  priority={false}
+                />
+              </div>
             ) : (
               <span className="text-2xl">{link.fields.platform}</span>
             )}
@@ -112,13 +115,16 @@ export async function FooterSection({ section }: { section: ContentfulEntry<Sect
       <div className="max-w-7xl mx-auto px-4 py-12">
         <div className="flex flex-col items-center text-center mb-12">
           {logo && (
-            <img
-              src={logo.fields.file.url}
-              alt={logo.fields.title}
-              className="w-14 h-14 object-cover rounded mb-4"
-              width={56}
-              height={56}
-            />
+            <div className="relative w-14 h-14 mb-4">
+              <Image
+                src={`https:${logo.fields.file.url}`}
+                alt={logo.fields.title || ''}
+                fill
+                className="object-cover rounded"
+                sizes="56px"
+                priority={true}
+              />
+            </div>
           )}
           {tagline && (
             <p className="text-lg max-w-2xl">{tagline}</p>
@@ -157,13 +163,16 @@ export async function FooterSection({ section }: { section: ContentfulEntry<Sect
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             <div>
               {logo && (
-                <img
-                  src={logo.fields.file.url}
-                  alt={logo.fields.title}
-                  className="w-14 h-14 object-cover rounded mb-4"
-                  width={56}
-                  height={56}
-                />
+                <div className="relative w-14 h-14 mb-4">
+                  <Image
+                    src={`https:${logo.fields.file.url}`}
+                    alt={logo.fields.title || ''}
+                    fill
+                    className="object-cover rounded"
+                    sizes="56px"
+                    priority={true}
+                  />
+                </div>
               )}
               {tagline && (
                 <p className="text-lg mb-6">{tagline}</p>

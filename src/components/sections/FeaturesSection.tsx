@@ -5,6 +5,7 @@ import {
   FeatureItemFields,
 } from '@/types/sections';
 import { getEntryById } from '@/lib/contentful';
+import Image from 'next/image';
 
 export async function FeaturesSection({
   section,
@@ -49,15 +50,15 @@ export async function FeaturesSection({
               }
             >
               {feature.fields.icon && (
-                <img
-                  src={feature.fields.icon.fields.file.url}
-                  alt={feature.fields.icon.fields.title}
-                  className='w-12 h-12 mb-4'
-                  width={feature.fields.icon.fields.file.details?.image?.width}
-                  height={
-                    feature.fields.icon.fields.file.details?.image?.height
-                  }
-                />
+                <div className="relative w-12 h-12 mb-4">
+                  <Image
+                    src={`https:${feature.fields.icon.fields.file.url}`}
+                    alt={feature.fields.icon.fields.title || ''}
+                    fill
+                    sizes="48px"
+                    priority={false}
+                  />
+                </div>
               )}
               <h3 className='text-xl font-semibold mb-2'>
                 {feature.fields.title}

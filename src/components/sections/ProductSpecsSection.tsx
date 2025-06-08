@@ -1,6 +1,7 @@
 import { ContentfulEntry, ProductSpecsSectionFields, SectionFields, ProductSpecFields, AssetFields } from '@/types/sections';
 import { Section } from './Section';
 import { getEntryById } from '@/lib/contentful';
+import Image from 'next/image';
 
 export async function ProductSpecsSection({ section }: { section: ContentfulEntry<SectionFields> }) {
   const entry = await getEntryById<ProductSpecsSectionFields>(section.fields.content.sys.id, section.sys.locale);
@@ -45,25 +46,29 @@ export async function ProductSpecsSection({ section }: { section: ContentfulEntr
                   >
                     <td className="py-4 px-6 font-semibold w-1/3">
                       {spec.fields.images?.[1] && (
-                        <img
-                          src={spec.fields.images[1].fields.file.url}
-                          alt={spec.fields.images[1].fields.title}
-                          className="w-6 h-6 inline-block mr-2"
-                          width={spec.fields.images[1].fields.file.details?.image?.width}
-                          height={spec.fields.images[1].fields.file.details?.image?.height}
+                        <Image
+                          src={`https:${spec.fields.images[1].fields.file.url}`}
+                          alt={spec.fields.images[1].fields.title || ''}
+                          className="inline-block mr-2"
+                          width={24}
+                          height={24}
+                          style={{ width: '24px', height: '24px' }}
+                          priority={false}
                         />
                       )}
                       {spec.fields.title}
                     </td>
                     <td className="py-4 px-6">
                       {spec.fields.images?.[0] && (
-                        <div className="mb-4 rounded-lg overflow-hidden">
-                          <img
-                            src={spec.fields.images[0].fields.file.url}
-                            alt={spec.fields.images[0].fields.title}
-                            className="w-full h-48 object-cover hover:scale-105 transition-transform duration-300"
-                            width={spec.fields.images[0].fields.file.details?.image?.width}
-                            height={spec.fields.images[0].fields.file.details?.image?.height}
+                        <div className="mb-4 rounded-lg overflow-hidden relative aspect-[16/9]">
+                          <Image
+                            src={`https:${spec.fields.images[0].fields.file.url}`}
+                            alt={spec.fields.images[0].fields.title || ''}
+                            className="object-cover hover:scale-105 transition-transform duration-300"
+                            fill
+                            sizes="(max-width: 768px) 100vw, 50vw"
+                            priority={false}
+                            quality={85}
                           />
                         </div>
                       )}
@@ -118,13 +123,15 @@ export async function ProductSpecsSection({ section }: { section: ContentfulEntr
                 {/* Image Container - Square on large screens, full width on small */}
                 {spec.fields.images?.[0] && (
                   <div className="w-full md:w-48 flex-shrink-0">
-                    <div className="aspect-square rounded-lg overflow-hidden">
-                      <img
-                        src={spec.fields.images[0].fields.file.url}
-                        alt={spec.fields.images[0].fields.title}
-                        className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                        width={spec.fields.images[0].fields.file.details?.image?.width}
-                        height={spec.fields.images[0].fields.file.details?.image?.height}
+                    <div className="aspect-square rounded-lg overflow-hidden relative">
+                      <Image
+                        src={`https:${spec.fields.images[0].fields.file.url}`}
+                        alt={spec.fields.images[0].fields.title || ''}
+                        className="object-cover hover:scale-105 transition-transform duration-300"
+                        fill
+                        sizes="(max-width: 768px) 100vw, 192px"
+                        priority={false}
+                        quality={85}
                       />
                     </div>
                   </div>
@@ -135,13 +142,15 @@ export async function ProductSpecsSection({ section }: { section: ContentfulEntr
                   <div className="flex items-start gap-3">
                     {/* Small Icon */}
                     {spec.fields.images?.[1] && (
-                      <img
-                        src={spec.fields.images[1].fields.file.url}
-                        alt={spec.fields.images[1].fields.title}
-                        className="w-6 h-6 mt-1"
-                        width={spec.fields.images[1].fields.file.details?.image?.width}
-                        height={spec.fields.images[1].fields.file.details?.image?.height}
-                      />
+                      <div className="relative w-6 h-6 mt-1">
+                        <Image
+                          src={`https:${spec.fields.images[1].fields.file.url}`}
+                          alt={spec.fields.images[1].fields.title || ''}
+                          fill
+                          sizes="24px"
+                          priority={false}
+                        />
+                      </div>
                     )}
                     <div>
                       <h3 className="font-semibold">{spec.fields.title}</h3>

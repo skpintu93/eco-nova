@@ -1,6 +1,7 @@
 import { ContentfulEntry, TestimonialsSectionFields, SectionFields, TestimonialFields } from '@/types/sections';
 import { StarIcon } from '@heroicons/react/24/solid';
 import { getEntryById } from '@/lib/contentful';
+import Image from 'next/image';
 
 export async function TestimonialsSection({ section }: { section: ContentfulEntry<SectionFields> }) {
   const entry = await getEntryById<TestimonialsSectionFields>(section.fields.content.sys.id, section.sys.locale);
@@ -35,11 +36,16 @@ export async function TestimonialsSection({ section }: { section: ContentfulEntr
         </blockquote>
         <div className="flex items-center gap-4 mt-4">
           {authorImage && (
-            <img
-              src={`https:${authorImage.fields.file.url}`}
-              alt={authorName}
-              className="w-12 h-12 rounded-full object-cover"
-            />
+            <div className="relative w-12 h-12">
+              <Image
+                src={`https:${authorImage.fields.file.url}`}
+                alt={authorName}
+                fill
+                className="rounded-full object-cover"
+                sizes="48px"
+                priority={false}
+              />
+            </div>
           )}
           <div>
             <p className="font-semibold text-gray-900">{authorName}</p>

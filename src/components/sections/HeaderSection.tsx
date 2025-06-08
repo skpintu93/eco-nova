@@ -48,16 +48,16 @@ const HeaderSection = () => {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-white shadow-sm">
-      <div className="container mx-auto px-4 py-4">
+      <div className="container mx-auto px-4 py-2">
         <div className="flex items-center justify-between">
           {/* Logo */}
           <Link href={language === 'en-US' ? '/en' : '/es'} className="flex items-center">
             <Image
-              src="/logo.png"
+              src="/econova.png"
               alt="Eco Nova Logo"
-              width={120}
-              height={40}
-              className="h-10 w-auto"
+              width={150}
+              height={150}
+              className="h-16 w-auto"
               priority
             />
           </Link>

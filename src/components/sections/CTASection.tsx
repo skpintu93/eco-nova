@@ -1,6 +1,7 @@
 import { ContentfulEntry, CTASectionFields, SectionFields, ButtonFields, AssetFields } from '@/types/sections';
 import { Section } from './Section';
 import { getEntryById } from '@/lib/contentful';
+import Image from 'next/image';
 
 interface ButtonProps extends ButtonFields {
   icon?: ContentfulEntry<AssetFields>;
@@ -78,13 +79,15 @@ export async function CTASection({ section }: { section: ContentfulEntry<Section
                   }`}
                 >
                   {button.icon && (
-                    <img
-                      src={button.icon.fields.file.url}
-                      alt={button.icon.fields.title}
-                      className="w-5 h-5 inline-block mr-2"
-                      width={button.icon.fields.file.details?.image?.width}
-                      height={button.icon.fields.file.details?.image?.height}
-                    />
+                    <div className="relative w-5 h-5 inline-block mr-2">
+                      <Image
+                        src={`https:${button.icon.fields.file.url}`}
+                        alt={button.icon.fields.title || ''}
+                        fill
+                        sizes="20px"
+                        priority={false}
+                      />
+                    </div>
                   )}    
                   {button.text}
                 </a>
