@@ -64,7 +64,7 @@ interface TestimonialData {
 }
 
 interface SectionData {
-  type: 'hero' | 'features' | 'testimonials' | 'productSpecs' | 'cta';
+  type: 'hero' | 'features' | 'testimonials' | 'productSpecs' | 'cta' | 'footer';
   content: string; // Reference to section content entry
   padding?: 'none' | 'small' | 'medium' | 'large';
   margin?: 'none' | 'small' | 'medium' | 'large';
@@ -376,6 +376,16 @@ const translations = {
         }
       }
     ]
+  },
+  footerSection: {
+    main: {
+      title: { 'en-US': 'Footer', 'es': 'Pie de Página' },
+      tagline: { 'en-US': '© 2023 Eco Nova. All rights reserved.', 'es': '© 2023 Eco Nova. Todos los derechos reservados.' },
+      copyrightText: { 'en-US': '© 2023 Eco Nova', 'es': '© 2023 Eco Nova' },
+      layout: { 'en-US': 'standard' },
+      backgroundColor: { 'en-US': '#f8f9fa' },
+      showDivider: { 'en-US': true }
+    }
   }
 };
 
@@ -518,13 +528,7 @@ async function createLandingPage() {
     const testimonialsSection = await createEntry('testimonialsSection', {
       ...translations.testimonialsSection.main,
       testimonials: {
-        'en-US': {
-          sys: {
-            type: 'Link',
-            linkType: 'Entry',
-            id: testimonials[0]
-          }
-        }
+        'en-US': { sys: { type: 'Link', linkType: 'Entry', id: testimonials[0] } }
       }
     });
 
@@ -575,7 +579,10 @@ async function createLandingPage() {
       }
     });
 
-    // 8. Create Sections
+    // 8. Create Footer Section
+    const footerSection = await createEntry('footerSection', translations.footerSection.main);
+
+    // 9. Create Sections
     const sections = await Promise.all([
       createEntry('section', {
         type: {
@@ -676,10 +683,30 @@ async function createLandingPage() {
         backgroundColor: {
           'en-US': '#ffffff'
         }
+      }),
+      createEntry('section', {
+        type: {
+          'en-US': 'footer'
+        },
+        content: {
+          'en-US': {
+            sys: {
+              type: 'Link',
+              linkType: 'Entry',
+              id: footerSection
+            }
+          }
+        },
+        padding: {
+          'en-US': 'large'
+        },
+        backgroundColor: {
+          'en-US': '#f8f9fa'
+        }
       })
     ]);
 
-    // 9. Create Landing Page
+    // 10. Create Landing Page
     const landingPage = await createEntry('landingPage', {
       title: {
         'en-US': 'Welcome to Our Platform',

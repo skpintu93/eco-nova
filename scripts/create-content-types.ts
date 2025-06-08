@@ -41,21 +41,6 @@ interface ContentTypeField {
   defaultValue?: Record<string, any>;
 }
 
-// Fields that should be localized for each content type
-const localizedFields: Record<string, string[]> = {
-  button: ['text', 'link'],
-  ctaBlock: ['title', 'subtitle'],
-  featureItem: ['title', 'description', 'link'],
-  productSpec: ['name', 'value', 'unit', 'description'],
-  testimonial: ['quote', 'authorName', 'authorTitle', 'company'],
-  heroSection: ['title', 'subtitle'],
-  featuresSection: ['title', 'longText'],
-  productSpecsSection: ['title', 'subtitle'],
-  testimonialsSection: ['title', 'subtitle'],
-  ctaSection: ['title', 'subtitle'],
-  landingPage: ['title', 'metaDescription'],
-};
-
 async function readContentTypes() {
   const contentTypesPath = path.join(__dirname, '..', 'contentful', 'content-types.json');
   const contentTypesData = await fs.readFile(contentTypesPath, 'utf-8');
@@ -118,7 +103,6 @@ async function unpublishEntries(env: any, contentTypeId: string) {
 
 async function processContentType(env: any, contentType: any, existingContentType: any | null) {
   const contentTypeId = contentType.id;
-  const fieldsToLocalize = localizedFields[contentTypeId] || [];
 
   // Special handling for navigationLink content type
   if (contentTypeId === 'navigationLink') {
@@ -134,8 +118,7 @@ async function processContentType(env: any, contentType: any, existingContentTyp
   // Update fields to enable localization and fix link types
   const updatedFields = contentType.fields.map((field: ContentTypeField) => {
     const updatedField = {
-      ...field,
-      localized: fieldsToLocalize.includes(field.id)
+      ...field
     };
 
     // Handle Link fields properly
@@ -223,7 +206,12 @@ async function processContentType(env: any, contentType: any, existingContentTyp
       }
     } else {
       console.log(`\nCreating new content type: ${contentTypeId}`);
-      const newContentType = await env.createContentType(contentTypeData);
+      // Remove id from the payload when creating a new content type
+      const { id, ...contentTypeDataWithoutId } = contentTypeData;
+      const newContentType = await env.createContentType({
+        ...contentTypeDataWithoutId,
+        sys: { id: contentTypeId }
+      });
       await newContentType.publish();
       console.log(`✓ Created and published content type: ${contentTypeId}`);
     }
