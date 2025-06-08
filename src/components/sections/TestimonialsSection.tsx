@@ -16,7 +16,7 @@ export async function TestimonialsSection({ section }: { section: ContentfulEntr
         {[...Array(5)].map((_, i) => (
           <StarIcon
             key={i}
-            className={`w-5 h-5 ${
+            className={`w-4 h-4 sm:w-5 sm:h-5 ${
               i < (rating || 0) ? 'text-yellow-400' : 'text-gray-300'
             }`}
           />
@@ -29,28 +29,28 @@ export async function TestimonialsSection({ section }: { section: ContentfulEntr
     const { quote, authorName, authorTitle, rating, company, authorImage } = testimonial.fields;
     
     return (
-      <div className="bg-white rounded-lg shadow-lg p-6 h-full flex flex-col">
+      <div className="bg-white rounded-lg shadow-lg p-4 sm:p-6 h-full flex flex-col">
         {renderRating(rating)}
         <blockquote className="flex-1">
-          <p className="text-gray-600 italic mb-4">&quot;{quote}&quot;</p>
+          <p className="text-sm sm:text-base text-gray-600 italic mb-4">&quot;{quote}&quot;</p>
         </blockquote>
-        <div className="flex items-center gap-4 mt-4">
+        <div className="flex items-center gap-3 sm:gap-4 mt-4">
           {authorImage && (
-            <div className="relative w-12 h-12">
+            <div className="relative w-10 h-10 sm:w-12 sm:h-12 flex-shrink-0">
               <Image
                 src={`https:${authorImage.fields.file.url}`}
                 alt={authorName}
                 fill
                 className="rounded-full object-cover"
-                sizes="48px"
+                sizes="(max-width: 640px) 40px, 48px"
                 priority={false}
               />
             </div>
           )}
-          <div>
-            <p className="font-semibold text-gray-900">{authorName}</p>
-            {authorTitle && <p className="text-sm text-gray-600">{authorTitle}</p>}
-            {company && <p className="text-sm text-gray-500">{company}</p>}
+          <div className="min-w-0 flex-1">
+            <p className="font-semibold text-gray-900 text-sm sm:text-base truncate">{authorName}</p>
+            {authorTitle && <p className="text-xs sm:text-sm text-gray-600 truncate">{authorTitle}</p>}
+            {company && <p className="text-xs sm:text-sm text-gray-500 truncate">{company}</p>}
           </div>
         </div>
       </div>
@@ -60,25 +60,25 @@ export async function TestimonialsSection({ section }: { section: ContentfulEntr
   const getLayoutClasses = () => {
     switch (layout) {
       case 'grid':
-        return 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6';
+        return 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6';
       case 'list':
-        return 'space-y-6 max-w-3xl mx-auto';
+        return 'space-y-4 sm:space-y-6 max-w-3xl mx-auto';
       case 'carousel':
-        return 'flex overflow-x-auto gap-6 pb-6 snap-x snap-mandatory';
+        return 'flex overflow-x-auto gap-4 sm:gap-6 pb-4 sm:pb-6 snap-x snap-mandatory scrollbar-hide';
       default:
-        return 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6';
+        return 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6';
     }
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4">
+    <div className="w-full max-w-7xl mx-auto px-3 sm:px-4 py-8 sm:py-12">
       {(title || subtitle) && (
-        <div className="text-center mb-12">
+        <div className="text-center mb-8 sm:mb-12">
           {title && (
-            <h2 className="text-3xl font-bold mb-4">{title}</h2>
+            <h2 className="text-2xl sm:text-3xl font-bold mb-2 sm:mb-4">{title}</h2>
           )}
           {subtitle && (
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">{subtitle}</p>
+            <p className="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto px-2">{subtitle}</p>
           )}
         </div>
       )}
@@ -87,7 +87,7 @@ export async function TestimonialsSection({ section }: { section: ContentfulEntr
         {testimonials.map((testimonial) => (
           <div
             key={testimonial.sys.id}
-            className={layout === 'carousel' ? 'snap-start flex-none w-full md:w-1/2 lg:w-1/3' : ''}
+            className={layout === 'carousel' ? 'snap-start flex-none w-[85%] sm:w-[45%] lg:w-[30%]' : ''}
           >
             {renderTestimonial(testimonial)}
           </div>
