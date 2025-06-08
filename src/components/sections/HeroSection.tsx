@@ -7,8 +7,7 @@ type MediaType = 'image' | 'video';
 export async function HeroSection({ section }: { section: ContentfulEntry<SectionFields> }) {
 
   // get the entries by sys.id
-  const entry = await getEntryById<HeroSectionFields>(section.fields.content.sys.id);
-
+  const entry = await getEntryById<HeroSectionFields>(section.fields.content.sys.id, section.sys.locale);
   const fields = entry.fields;
 
   // Map incoming data structure to expected props

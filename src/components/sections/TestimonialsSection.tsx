@@ -3,7 +3,7 @@ import { StarIcon } from '@heroicons/react/24/solid';
 import { getEntryById } from '@/lib/contentful';
 
 export async function TestimonialsSection({ section }: { section: ContentfulEntry<SectionFields> }) {
-  const entry = await getEntryById<TestimonialsSectionFields>(section.fields.content.sys.id);
+  const entry = await getEntryById<TestimonialsSectionFields>(section.fields.content.sys.id, section.sys.locale);
   const fields = entry.fields;
 
   const { title, subtitle, testimonials, layout = 'grid' } = fields;

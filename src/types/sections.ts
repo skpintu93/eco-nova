@@ -148,6 +148,7 @@ export interface ContentfulEntry<T> {
         id: string;
       };
     };
+    locale: 'en-US' | 'es';
   };
   fields: T;
 }

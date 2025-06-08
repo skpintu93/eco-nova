@@ -7,7 +7,7 @@ interface ButtonProps extends ButtonFields {
 }
 
 export async function CTASection({ section }: { section: ContentfulEntry<SectionFields> }) {
-  const entry = await getEntryById<CTASectionFields>(section.fields.content.sys.id);
+  const entry = await getEntryById<CTASectionFields>(section.fields.content.sys.id, section.sys.locale);
   const fields = entry.fields;
 
   const {

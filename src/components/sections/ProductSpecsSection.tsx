@@ -3,7 +3,7 @@ import { Section } from './Section';
 import { getEntryById } from '@/lib/contentful';
 
 export async function ProductSpecsSection({ section }: { section: ContentfulEntry<SectionFields> }) {
-  const entry = await getEntryById<ProductSpecsSectionFields>(section.fields.content.sys.id);
+  const entry = await getEntryById<ProductSpecsSectionFields>(section.fields.content.sys.id, section.sys.locale);
   const fields = entry.fields;
 
   const { 
