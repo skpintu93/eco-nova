@@ -1,11 +1,6 @@
-import { ContentfulEntry, CTASectionFields, SectionFields, ButtonFields, AssetFields } from '@/types/sections';
-import { Section } from './Section';
+import { ContentfulEntry, CTASectionFields, SectionFields } from '@/types/sections';
 import { getEntryById } from '@/lib/contentful';
 import Image from 'next/image';
-
-interface ButtonProps extends ButtonFields {
-  icon?: ContentfulEntry<AssetFields>;
-}
 
 export async function CTASection({ section }: { section: ContentfulEntry<SectionFields> }) {
   const entry = await getEntryById<CTASectionFields>(section.fields.content.sys.id, section.sys.locale);

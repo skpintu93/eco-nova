@@ -40,7 +40,7 @@ export async function FeaturesSection({
     <div className="max-w-7xl mx-auto px-4">
       <div className={containerClass}>
         {features.map(
-          (feature: ContentfulEntry<FeatureItemFields>, index: number) => (
+          (feature: ContentfulEntry<FeatureItemFields>) => (
             <div
               key={feature.sys.id}
               className={

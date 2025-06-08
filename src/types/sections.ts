@@ -26,7 +26,7 @@ export interface NavigationLink {
 
 export interface SectionFields {
   type: SectionType;
-  content: ContentfulEntry<any>;
+  content: ContentfulEntry<HeroSectionFields | FeaturesSectionFields | TestimonialsSectionFields | ProductSpecsSectionFields | CTASectionFields | FooterSectionFields>;
   padding?: 'none' | 'small' | 'medium' | 'large';
   margin?: 'none' | 'small' | 'medium' | 'large';
   backgroundColor?: string;

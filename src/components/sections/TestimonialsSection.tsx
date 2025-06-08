@@ -32,7 +32,7 @@ export async function TestimonialsSection({ section }: { section: ContentfulEntr
       <div className="bg-white rounded-lg shadow-lg p-6 h-full flex flex-col">
         {renderRating(rating)}
         <blockquote className="flex-1">
-          <p className="text-gray-600 italic mb-4">"{quote}"</p>
+          <p className="text-gray-600 italic mb-4">&quot;{quote}&quot;</p>
         </blockquote>
         <div className="flex items-center gap-4 mt-4">
           {authorImage && (

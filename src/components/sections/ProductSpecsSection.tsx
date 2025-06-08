@@ -1,5 +1,4 @@
-import { ContentfulEntry, ProductSpecsSectionFields, SectionFields, ProductSpecFields, AssetFields } from '@/types/sections';
-import { Section } from './Section';
+import { ContentfulEntry, ProductSpecsSectionFields, SectionFields, ProductSpecFields } from '@/types/sections';
 import { getEntryById } from '@/lib/contentful';
 import Image from 'next/image';
 

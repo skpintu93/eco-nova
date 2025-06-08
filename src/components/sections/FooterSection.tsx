@@ -1,5 +1,4 @@
 import { ContentfulEntry, FooterSectionFields, SectionFields, SocialLinkFields, FooterColumnFields, NavigationLink } from '@/types/sections';
-import { Section } from './Section';
 import { getEntryById } from '@/lib/contentful';
 import Image from 'next/image';
 

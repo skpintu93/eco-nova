@@ -1,4 +1,4 @@
-import { ContentfulEntry, SectionFields, type SectionEntry } from '@/types/sections';
+import { ContentfulEntry, SectionFields } from '@/types/sections';
 import { HeroSection } from './HeroSection';
 import { FeaturesSection } from './FeaturesSection';
 import { TestimonialsSection } from './TestimonialsSection';

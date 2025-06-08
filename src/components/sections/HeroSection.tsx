@@ -1,4 +1,4 @@
-import { ContentfulEntry, HeroSectionFields, SectionFields, ButtonFields } from '@/types/sections';
+import { ContentfulEntry, HeroSectionFields, SectionFields } from '@/types/sections';
 import { getEntryById } from '@/lib/contentful';
 
 type ButtonVariant = 'primary' | 'secondary' | 'outline';

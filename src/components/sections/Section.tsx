@@ -1,5 +1,5 @@
 import { type ReactNode } from 'react';
-import { type ContentfulEntry, type SectionFields } from '@/types/sections';
+import { type SectionFields } from '@/types/sections';
 
 interface SectionProps {
   fields: SectionFields;
