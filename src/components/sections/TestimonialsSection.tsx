@@ -3,12 +3,15 @@ import { Section } from './Section';
 
 export function TestimonialsSection({ fields, className }: TestimonialsSectionProps) {
   const { 
-    testimonials, 
+    testimonials: rawTestimonials, 
     layout = 'grid', 
     columns = 3,
     showRatings = true,
     showCompany = true
   } = fields;
+
+  // Ensure testimonials is always an array
+  const testimonials = Array.isArray(rawTestimonials) ? rawTestimonials : [rawTestimonials];
 
   console.log(testimonials,  'testimonials');
 
