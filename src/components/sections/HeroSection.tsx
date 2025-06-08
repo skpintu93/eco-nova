@@ -1,56 +1,35 @@
-import { type HeroSectionProps, type ContentfulButtonEntry, type ContentfulAsset } from '@/types/sections';
-import { Section } from './Section';
+import { ContentfulEntry, HeroSectionFields, SectionFields, ButtonFields } from '@/types/sections';
+import { getEntryById } from '@/lib/contentful';
 
 type ButtonVariant = 'primary' | 'secondary' | 'outline';
 type MediaType = 'image' | 'video';
 
-function isContentfulButton(button: any): button is ContentfulButtonEntry {
-  return button && 'fields' in button && 'sys' in button;
-}
+export async function HeroSection({ section }: { section: ContentfulEntry<SectionFields> }) {
 
-interface ButtonProps {
-  text: string;
-  link: string;
-  variant?: ButtonVariant;
-}
+  // get the entries by sys.id
+  const entry = await getEntryById<HeroSectionFields>(section.fields.content.sys.id);
 
-export function HeroSection({ fields, className }: HeroSectionProps) {
+  const fields = entry.fields;
+
   // Map incoming data structure to expected props
   const mappedFields = {
-    headline: fields.headline || fields.title,
-    subheadline: fields.subheadline || fields.subtitle,
-    ctaPrimary: fields.ctaPrimary || (fields.ctaButton ? {
-      text: fields.ctaButton.fields.text,
-      link: fields.ctaButton.fields.link,
-      variant: fields.ctaButton.fields.variant
-    } : undefined),
-    ctaSecondary: fields.ctaSecondary,
+    title: fields.title,
+    subtitle: fields.subtitle,
+    ctaButton: fields.ctaButton,
     backgroundMedia: fields.backgroundMedia,
-    layout: fields.layout || (fields.alignment === 'center' ? 'centered' : 'split'),
+    alignment: fields.alignment,
+    overlayOpacity: fields.overlayOpacity,
     backgroundColor: fields.backgroundColor ? `bg-[${fields.backgroundColor}]` : 'bg-black',
   };
 
   const { 
-    headline, 
-    subheadline, 
-    ctaPrimary, 
-    ctaSecondary, 
+    title, 
+    subtitle, 
+    ctaButton, 
     backgroundMedia, 
-    layout,
+    alignment,
     backgroundColor,
   } = mappedFields;
-
-  const getButtonProps = (button: any): ButtonProps | null => {
-    if (!button) return null;
-    if (isContentfulButton(button)) {
-      return {
-        text: button.fields.text,
-        link: button.fields.link,
-        variant: button.fields.variant as ButtonVariant
-      };
-    }
-    return button as ButtonProps;
-  };
 
   const buttonVariants: Record<ButtonVariant, string> = {
     primary: 'bg-blue-600 hover:bg-blue-700 text-white shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200',
@@ -118,64 +97,47 @@ export function HeroSection({ fields, className }: HeroSectionProps) {
   };
 
   return (
-    <Section 
-      fields={fields}
-      className={`relative min-h-[85vh] md:min-h-[90vh] flex items-center justify-center overflow-hidden ${className ?? ''}`}
-    >
+    <div className="relative h-[90vh]">
       {/* Background Media (Image or Video) */}
       {renderBackground()}
       
       {/* Content Container */}
       <div 
-        className={`relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 ${
-          layout === 'split' 
+        className={`relative z-10 w-full h-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center ${
+          alignment === 'left' 
             ? 'md:grid md:grid-cols-2 md:gap-12 md:items-center' 
-            : 'text-center max-w-4xl'
+            : 'justify-center'
         }`}
       >
         {/* Text Content */}
-        <div className={`${layout === 'split' ? 'md:text-left' : 'text-center'} space-y-6`}>
+        <div className={`${alignment === 'left' ? 'md:text-left' : 'text-center'} space-y-6 w-full`}>
           <h1 
             className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight tracking-tight text-white"
             style={{
               textShadow: '0 2px 4px rgba(0,0,0,0.1)'
             }}
           >
-            {headline}
+            {title}
           </h1>
           
           <p className="text-lg sm:text-xl md:text-2xl max-w-2xl mx-auto opacity-90 leading-relaxed text-white">
-            {subheadline}
+            {subtitle}
           </p>
 
           {/* CTA Buttons */}
           <div 
             className={`flex flex-col sm:flex-row gap-4 mt-8 ${
-              layout === 'split' ? 'md:justify-start' : 'justify-center'
+              alignment === 'left' ? 'md:justify-start' : 'justify-center'
             }`}
           >
-            {ctaPrimary && (() => {
-              const button = getButtonProps(ctaPrimary);
+            {ctaButton && (() => {
+              const button = ctaButton.fields;
               if (!button) return null;
               return (
                 <a
                   href={button.link}
                   className={`px-8 py-4 rounded-lg font-semibold text-center ${
-                    buttonVariants[button.variant || 'primary']
-                  }`}
-                >
-                  {button.text}
-                </a>
-              );
-            })()}
-            {ctaSecondary && (() => {
-              const button = getButtonProps(ctaSecondary);
-              if (!button) return null;
-              return (
-                <a
-                  href={button.link}
-                  className={`px-8 py-4 rounded-lg font-semibold text-center ${
-                    buttonVariants[button.variant || 'outline']
+                    buttonVariants[button.variant as ButtonVariant]
                   }`}
                 >
                   {button.text}
@@ -186,7 +148,7 @@ export function HeroSection({ fields, className }: HeroSectionProps) {
         </div>
 
         {/* Optional Right Column Content for Split Layout */}
-        {layout === 'split' && (
+        {alignment === 'left' && (
           <div className="hidden md:block relative">
             {/* Add any additional content for split layout here */}
           </div>
@@ -209,6 +171,6 @@ export function HeroSection({ fields, className }: HeroSectionProps) {
           />
         </svg>
       </div>
-    </Section>
+    </div>
   );
 } 

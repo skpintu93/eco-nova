@@ -1,9 +1,12 @@
-import { type TestimonialsSectionProps } from '@/types/sections';
-import { Section } from './Section';
+import { ContentfulEntry, TestimonialsSectionFields, SectionFields, TestimonialFields } from '@/types/sections';
 import { StarIcon } from '@heroicons/react/24/solid';
+import { getEntryById } from '@/lib/contentful';
 
-export function TestimonialsSection({ fields, className }: TestimonialsSectionProps) {
-  const { title, subtitle, testimonials, layout = 'grid', backgroundColor } = fields;
+export async function TestimonialsSection({ section }: { section: ContentfulEntry<SectionFields> }) {
+  const entry = await getEntryById<TestimonialsSectionFields>(section.fields.content.sys.id);
+  const fields = entry.fields;
+
+  const { title, subtitle, testimonials, layout = 'grid' } = fields;
 
   const renderRating = (rating?: number) => {
     if (!rating) return null;
@@ -21,7 +24,7 @@ export function TestimonialsSection({ fields, className }: TestimonialsSectionPr
     );
   };
 
-  const renderTestimonial = (testimonial: TestimonialsSectionProps['fields']['testimonials'][0]) => {
+  const renderTestimonial = (testimonial: ContentfulEntry<TestimonialFields>) => {
     const { quote, authorName, authorTitle, rating, company, authorImage } = testimonial.fields;
     
     return (
@@ -62,10 +65,7 @@ export function TestimonialsSection({ fields, className }: TestimonialsSectionPr
   };
 
   return (
-    <Section
-      fields={fields}
-      className={`${className ?? ''}`}
-    >
+    <div>
       {(title || subtitle) && (
         <div className="text-center mb-12">
           {title && (
@@ -87,6 +87,6 @@ export function TestimonialsSection({ fields, className }: TestimonialsSectionPr
           </div>
         ))}
       </div>
-    </Section>
+    </div>
   );
 } 

@@ -23,13 +23,6 @@ const client = createClient({
   accessToken: managementToken,
 });
 
-interface ButtonData {
-  text: string;
-  link: string;
-  variant: 'primary' | 'secondary' | 'outline';
-  size?: 'small' | 'medium' | 'large';
-}
-
 interface CtaBlockData {
   title: string;
   subtitle?: string;

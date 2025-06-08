@@ -1,10 +1,9 @@
 import { type ReactNode } from 'react';
-import { type SectionFields } from '@/lib/contentful';
+import { type ContentfulEntry, type SectionFields } from '@/types/sections';
 
 interface SectionProps {
   fields: SectionFields;
   children: ReactNode;
-  className?: string;
 }
 
 const getSpacingClasses = (size: string | undefined, type: 'padding' | 'margin') => {
@@ -12,11 +11,13 @@ const getSpacingClasses = (size: string | undefined, type: 'padding' | 'margin')
   
   const classes = {
     padding: {
+      none: '',
       small: 'py-8 px-4',
       medium: 'py-12 px-6',
       large: 'py-16 px-8'
     },
     margin: {
+      none: '',
       small: 'my-4',
       medium: 'my-8',
       large: 'my-12'
@@ -28,26 +29,23 @@ const getSpacingClasses = (size: string | undefined, type: 'padding' | 'margin')
 
 export function Section({ 
   fields, 
-  children, 
-  className = ''
+  children
 }: SectionProps) {
   const { backgroundColor, padding, margin } = fields;
-  
+
   const paddingClasses = getSpacingClasses(padding, 'padding');
   const marginClasses = getSpacingClasses(margin, 'margin');
   
   return (
     <section 
       className={`
+        relative
         ${paddingClasses}
         ${marginClasses}
         ${backgroundColor ? `bg-[${backgroundColor}]` : ''}
-        ${className}
       `.trim()}
     >
-      <div className="max-w-7xl mx-auto">
         {children}
-      </div>
     </section>
   );
 } 

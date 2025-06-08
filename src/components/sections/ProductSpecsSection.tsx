@@ -1,58 +1,54 @@
-import { type ProductSpecsSectionProps } from '@/types/sections';
+import { ContentfulEntry, ProductSpecsSectionFields, SectionFields, ProductSpecFields } from '@/types/sections';
 import { Section } from './Section';
+import { getEntryById } from '@/lib/contentful';
 
-export function ProductSpecsSection({ fields, className }: ProductSpecsSectionProps) {
+export async function ProductSpecsSection({ section }: { section: ContentfulEntry<SectionFields> }) {
+  const entry = await getEntryById<ProductSpecsSectionFields>(section.fields.content.sys.id);
+  const fields = entry.fields;
+
   const { 
+    title,
+    subtitle,
     specs, 
     layout = 'grid', 
-    columns = 2, 
-    showIcons = true,
-    showUnits = true,
-    highlightImportant = false
+    backgroundColor,
   } = fields;
 
-  const gridCols = {
-    1: 'grid-cols-1',
-    2: 'grid-cols-1 md:grid-cols-2',
-    3: 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3',
-    4: 'grid-cols-1 md:grid-cols-2 lg:grid-cols-4',
-  }[columns] || 'grid-cols-1 md:grid-cols-2';
+  const gridCols = 'grid-cols-1 md:grid-cols-2';
 
   if (layout === 'table') {
     return (
-      <Section fields={fields} className={className}>
+      <div>
         <div className="overflow-x-auto">
           <table className="w-full border-collapse">
             <tbody>
-              {specs.map((spec, index) => (
+              {specs.map((spec: ContentfulEntry<ProductSpecFields>) => (
                 <tr 
-                  key={index}
-                  className={`border-b border-gray-200 last:border-b-0 ${
-                    highlightImportant && spec.highlight ? 'bg-blue-50' : ''
-                  }`}
+                  key={spec.sys.id}
+                  className="border-b border-gray-200 last:border-b-0"
                 >
                   <td className="py-4 px-6 font-semibold w-1/3">
-                    {showIcons && spec.icon && (
+                    {spec.fields.icon && (
                       <img
-                        src={spec.icon.url}
-                        alt={spec.icon.alt}
+                        src={spec.fields.icon.fields.file.url}
+                        alt={spec.fields.icon.fields.title}
                         className="w-6 h-6 inline-block mr-2"
-                        width={spec.icon.width}
-                        height={spec.icon.height}
+                        width={spec.fields.icon.fields.file.details?.image?.width}
+                        height={spec.fields.icon.fields.file.details?.image?.height}
                       />
                     )}
-                    {spec.name}
+                    {spec.fields.name}
                   </td>
                   <td className="py-4 px-6">
                     <div className="font-medium">
-                      {spec.value}
-                      {showUnits && spec.unit && (
-                        <span className="text-gray-500 ml-1">{spec.unit}</span>
+                      {spec.fields.value}
+                      {spec.fields.unit && (
+                        <span className="text-gray-500 ml-1">{spec.fields.unit}</span>
                       )}
                     </div>
-                    {spec.description && (
+                    {spec.fields.description && (
                       <div className="text-sm text-gray-600 mt-1">
-                        {spec.description}
+                        {spec.fields.description}
                       </div>
                     )}
                   </td>
@@ -61,7 +57,7 @@ export function ProductSpecsSection({ fields, className }: ProductSpecsSectionPr
             </tbody>
           </table>
         </div>
-      </Section>
+      </div>
     );
   }
 
@@ -70,36 +66,34 @@ export function ProductSpecsSection({ fields, className }: ProductSpecsSectionPr
     : `grid ${gridCols} gap-6`;
 
   return (
-    <Section fields={fields} className={className}>
+    <div>
       <div className={containerClass}>
-        {specs.map((spec, index) => (
+        {specs.map((spec: ContentfulEntry<ProductSpecFields>) => (
           <div 
-            key={index}
-            className={`p-4 rounded-lg border border-gray-200 hover:shadow-md transition-shadow ${
-              highlightImportant && spec.highlight ? 'bg-blue-50 border-blue-200' : ''
-            }`}
+            key={spec.sys.id}
+            className="p-4 rounded-lg border border-gray-200 hover:shadow-md transition-shadow"
           >
             <div className="flex items-start gap-3">
-              {showIcons && spec.icon && (
+              {spec.fields.icon && (
                 <img
-                  src={spec.icon.url}
-                  alt={spec.icon.alt}
+                  src={spec.fields.icon.fields.file.url}
+                  alt={spec.fields.icon.fields.title}
                   className="w-6 h-6 mt-1"
-                  width={spec.icon.width}
-                  height={spec.icon.height}
+                  width={spec.fields.icon.fields.file.details?.image?.width}
+                  height={spec.fields.icon.fields.file.details?.image?.height}
                 />
               )}
               <div>
-                <h3 className="font-semibold">{spec.name}</h3>
+                <h3 className="font-semibold">{spec.fields.name}</h3>
                 <p className="text-gray-900 mt-1">
-                  {spec.value}
-                  {showUnits && spec.unit && (
-                    <span className="text-gray-500 ml-1">{spec.unit}</span>
+                  {spec.fields.value}
+                  {spec.fields.unit && (
+                    <span className="text-gray-500 ml-1">{spec.fields.unit}</span>
                   )}
                 </p>
-                {spec.description && (
+                {spec.fields.description && (
                   <p className="text-sm text-gray-600 mt-1">
-                    {spec.description}
+                    {spec.fields.description}
                   </p>
                 )}
               </div>
@@ -107,6 +101,6 @@ export function ProductSpecsSection({ fields, className }: ProductSpecsSectionPr
           </div>
         ))}
       </div>
-    </Section>
+    </div>
   );
 } 

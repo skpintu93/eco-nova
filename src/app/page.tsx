@@ -1,10 +1,38 @@
-import { getLandingPageSections } from '@/lib/contentful';
+import { Metadata } from 'next';
+import { getLandingPageMetadata, getLandingPageSections } from '@/lib/contentful';
 import { DynamicSection } from '@/components/sections/DynamicSection';
 
-export const revalidate = 3600; // Revalidate every hour
+export async function generateMetadata(): Promise<Metadata> {
+  const metadata = await getLandingPageMetadata();
+  
+  if (!metadata) {
+    return {
+      title: 'Welcome',
+      description: 'Welcome to our platform'
+    };
+  }
 
-export default async function LandingPage() {
-  const sections = await getLandingPageSections();
+  return {
+    title: metadata.title,
+    description: metadata.metaDescription,
+    openGraph: {
+      title: metadata.title,
+      description: metadata.metaDescription,
+      images: metadata.metaImage ? [
+        {
+          url: `https:${metadata.metaImage.fields.file.url}`,
+          width: metadata.metaImage.fields.file.details?.image?.width,
+          height: metadata.metaImage.fields.file.details?.image?.height,
+          alt: metadata.metaImage.fields.title
+        }
+      ] : undefined
+    }
+  };
+}
+
+export default async function HomePage() {
+  const sections = await getLandingPageSections('/');
+
 
   return (
     <main>

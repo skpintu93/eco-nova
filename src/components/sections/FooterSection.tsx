@@ -1,86 +1,50 @@
-import { type FooterSectionProps } from '@/types/sections';
+import { ContentfulEntry, FooterSectionFields, SectionFields, SocialLinkFields, FooterColumnFields, NavigationLink } from '@/types/sections';
 import { Section } from './Section';
+import { getEntryById } from '@/lib/contentful';
 
-export function FooterSection({ fields, className }: FooterSectionProps) {
+export async function FooterSection({ section }: { section: ContentfulEntry<SectionFields> }) {
+  const entry = await getEntryById<FooterSectionFields>(section.fields.content.sys.id);
+  const fields = entry.fields;
+
   const {
     logo,
     tagline,
     columns = [],
     socialLinks = [],
     bottomLinks = [],
-    newsletter = null,
     copyrightText,
     backgroundColor = 'bg-gray-900',
-    textColor = 'text-gray-300',
     accentColor = 'text-blue-400',
     showDivider = true,
     layout = 'standard',
   } = fields;
 
-  const renderNewsletter = () => {
-    if (!newsletter) return null;
-
-    return (
-      <div className="mb-8">
-        <h3 className={`text-lg font-semibold mb-4 ${accentColor}`}>
-          {newsletter.headline}
-        </h3>
-        <p className="mb-4">{newsletter.description}</p>
-        <form 
-          onSubmit={(e) => {
-            e.preventDefault();
-            // Handle newsletter subscription
-            if (newsletter.onSubscribe) {
-              newsletter.onSubscribe(new FormData(e.currentTarget).get('email') as string);
-            }
-          }}
-          className="flex flex-col sm:flex-row gap-2"
-        >
-          <input
-            type="email"
-            name="email"
-            placeholder={newsletter.placeholder || "Enter your email"}
-            required
-            className="flex-1 px-4 py-2 rounded-lg bg-gray-800 border border-gray-700 focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
-          />
-          <button
-            type="submit"
-            className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition-colors"
-          >
-            {newsletter.buttonText || "Subscribe"}
-          </button>
-        </form>
-        {newsletter.disclaimer && (
-          <p className="mt-2 text-sm text-gray-400">{newsletter.disclaimer}</p>
-        )}
-      </div>
-    );
-  };
+  const textColor = 'text-gray-300';
 
   const renderSocialLinks = () => {
     if (!socialLinks.length) return null;
 
     return (
       <div className="flex gap-4 mb-8">
-        {socialLinks.map((link, index) => (
+        {socialLinks.map((link: ContentfulEntry<SocialLinkFields>) => (
           <a
-            key={index}
-            href={link.url}
+            key={link.sys.id}
+            href={link.fields.url}
             target="_blank"
             rel="noopener noreferrer"
             className={`hover:${accentColor} transition-colors`}
-            aria-label={link.platform}
+            aria-label={link.fields.platform}
           >
-            {link.icon ? (
+            {link.fields.icon ? (
               <img
-                src={link.icon.url}
-                alt={link.platform}
+                src={link.fields.icon.fields.file.url}
+                alt={link.fields.platform}
                 className="w-6 h-6"
-                width={link.icon.width}
-                height={link.icon.height}
+                width={link.fields.icon.fields.file.details?.image?.width}
+                height={link.fields.icon.fields.file.details?.image?.height}
               />
             ) : (
-              <span className="text-2xl">{link.platform}</span>
+              <span className="text-2xl">{link.fields.platform}</span>
             )}
           </a>
         ))}
@@ -93,30 +57,30 @@ export function FooterSection({ fields, className }: FooterSectionProps) {
 
     return (
       <div className={`grid grid-cols-1 md:grid-cols-${columns.length} gap-8 mb-8`}>
-        {columns.map((column, index) => (
-          <div key={index}>
-            {column.heading && (
+        {columns.map((column: ContentfulEntry<FooterColumnFields>) => (
+          <div key={column.sys.id}>
+            {column.fields.heading && (
               <h3 className={`text-lg font-semibold mb-4 ${accentColor}`}>
-                {column.heading}
+                {column.fields.heading}
               </h3>
             )}
-            {column.links && (
+            {column.fields.links && (
               <ul className="space-y-2">
-                {column.links.map((link, linkIndex) => (
-                  <li key={linkIndex}>
+                {column.fields.links.map((link: ContentfulEntry<NavigationLink>) => (
+                  <li key={link.sys.id}>
                     <a
-                      href={link.url}
+                      href={link.fields.url}
                       className={`hover:${accentColor} transition-colors`}
                     >
-                      {link.text}
+                      {link.fields.text}
                     </a>
                   </li>
                 ))}
               </ul>
             )}
-            {column.content && (
+            {column.fields.content && (
               <div className="prose prose-invert max-w-none">
-                {column.content}
+                {column.fields.content}
               </div>
             )}
           </div>
@@ -130,13 +94,13 @@ export function FooterSection({ fields, className }: FooterSectionProps) {
 
     return (
       <div className="flex flex-wrap gap-4 justify-center mb-4">
-        {bottomLinks.map((link, index) => (
+        {bottomLinks.map((link: ContentfulEntry<NavigationLink>) => (
           <a
-            key={index}
-            href={link.url}
+            key={link.sys.id}
+            href={link.fields.url}
             className={`hover:${accentColor} transition-colors`}
           >
-            {link.text}
+            {link.fields.text}
           </a>
         ))}
       </div>
@@ -144,19 +108,16 @@ export function FooterSection({ fields, className }: FooterSectionProps) {
   };
 
   return (
-    <Section
-      fields={fields}
-      className={`${backgroundColor} ${textColor} ${className ?? ''}`}
-    >
+    <div className={`${backgroundColor} ${textColor}`}>
       <div className="max-w-7xl mx-auto px-4 py-12">
         <div className="flex flex-col items-center text-center mb-12">
           {logo && (
             <img
-              src={logo.url}
-              alt={logo.alt}
+              src={logo.fields.file.url}
+              alt={logo.fields.title}
               className="h-12 mb-4"
-              width={logo.width}
-              height={logo.height}
+              width={logo.fields.file.details?.image?.width}
+              height={logo.fields.file.details?.image?.height}
             />
           )}
           {tagline && (
@@ -166,7 +127,6 @@ export function FooterSection({ fields, className }: FooterSectionProps) {
 
         {layout === 'standard' && (
           <>
-            {renderNewsletter()}
             {renderSocialLinks()}
             {renderColumns()}
             {showDivider && (
@@ -198,17 +158,16 @@ export function FooterSection({ fields, className }: FooterSectionProps) {
             <div>
               {logo && (
                 <img
-                  src={logo.url}
-                  alt={logo.alt}
+                  src={logo.fields.file.url}
+                  alt={logo.fields.title}
                   className="h-12 mb-4"
-                  width={logo.width}
-                  height={logo.height}
+                  width={logo.fields.file.details?.image?.width}
+                  height={logo.fields.file.details?.image?.height}
                 />
               )}
               {tagline && (
                 <p className="text-lg mb-6">{tagline}</p>
               )}
-              {renderNewsletter()}
               {renderSocialLinks()}
             </div>
             <div>
@@ -226,6 +185,6 @@ export function FooterSection({ fields, className }: FooterSectionProps) {
           </div>
         )}
       </div>
-    </Section>
+    </div>
   );
 } 

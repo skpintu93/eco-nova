@@ -1,27 +1,28 @@
-import { type SectionEntry } from '@/types/sections';
+import { ContentfulEntry, SectionFields, type SectionEntry } from '@/types/sections';
 import { HeroSection } from './HeroSection';
 import { FeaturesSection } from './FeaturesSection';
 import { TestimonialsSection } from './TestimonialsSection';
 import { ProductSpecsSection } from './ProductSpecsSection';
 import { CTASection } from './CTASection';
 import { FooterSection } from './FooterSection';
+import { Section } from './Section';
+import { SectionType } from '@/lib/contentful';
 
-const sectionComponents: Record<string, React.ComponentType<{ fields: any; className?: string }>> = {
-  heroSection: HeroSection,
-  featuresSection: FeaturesSection,
-  testimonialsSection: TestimonialsSection,
-  productSpecsSection: ProductSpecsSection,
-  ctaSection: CTASection,
-  footerSection: FooterSection,
+const sectionComponents: Record<SectionType, React.ComponentType<{ section: ContentfulEntry<SectionFields> }>> = {
+  hero: HeroSection,
+  features: FeaturesSection,
+  testimonials: TestimonialsSection,
+  productSpecs: ProductSpecsSection,
+  cta: CTASection, 
+  footer: FooterSection,
 };
 
 interface DynamicSectionProps {
-  section: SectionEntry;
-  className?: string;
+  section: ContentfulEntry<SectionFields>;
 }
 
-export function DynamicSection({ section, className }: DynamicSectionProps) {
-  const contentType = section.sys.contentType.sys.id;
+export function DynamicSection({ section }: DynamicSectionProps) {
+  const contentType = section.fields.type;
   const Component = sectionComponents[contentType];
 
   if (!Component) {
@@ -29,5 +30,9 @@ export function DynamicSection({ section, className }: DynamicSectionProps) {
     return null;
   }
 
-  return <Component fields={section.fields} className={className} />;
+  return (
+    <Section fields={section.fields}>
+      <Component section={section} />
+    </Section>
+  );
 } 

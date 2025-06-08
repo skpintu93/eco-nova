@@ -1,213 +1,150 @@
+import { SectionType } from "@/lib/contentful";
+
 // Base types used across multiple sections
-export interface Asset {
-  url: string;
-  alt: string;
-  width?: number;
-  height?: number;
+export interface AssetFields {
+    title: string;
+    description?: string;
+    file: {
+      url: string;
+      contentType: string;
+      details?: {
+        size: number;
+        image?: {
+          width: number;
+          height: number;
+        };
+      };
+    };
 }
 
-export interface Link {
+export interface NavigationLink {
   text: string;
   url: string;
+  isExternal?: boolean;
+  children?: NavigationLink[];
 }
 
-export interface BaseSectionFields {
-  title?: string;
-  subtitle?: string;
+export interface SectionFields {
+  type: SectionType;
+  content: ContentfulEntry<any>;
+  padding?: 'none' | 'small' | 'medium' | 'large';
+  margin?: 'none' | 'small' | 'medium' | 'large';
   backgroundColor?: string;
-  textColor?: string;
-  order?: number;
-  alignment?: 'center' | 'left' | 'right';
 }
 
-// Contentful Button Entry
-export interface ContentfulButtonEntry {
-  metadata: { tags: string[]; concepts: string[] };
-  sys: {
-    id: string;
-    type: string;
-    createdAt: string;
-    updatedAt: string;
-    contentType: { sys: { id: string } };
-  };
-  fields: {
-    text: string;
-    link: string;
-    variant?: 'primary' | 'secondary' | 'outline';
-    size?: string;
-  };
-}
-
-// Contentful Asset Types
-export interface ContentfulAssetFile {
-  url: string;
-  details: {
-    size: number;
-    image?: {
-      width: number;
-      height: number;
-    };
-  };
-  fileName: string;
-  contentType: string;
-}
-
-export interface ContentfulAsset {
-  metadata: {
-    tags: any[];
-    concepts: any[];
-  };
-  sys: {
-    space: { sys: any };
-    id: string;
-    type: 'Asset';
-    createdAt: string;
-    updatedAt: string;
-    environment: { sys: any };
-    publishedVersion: number;
-    revision: number;
-    locale: string;
-  };
-  fields: {
-    title: string;
-    description: string;
-    file: ContentfulAssetFile;
-  };
-}
+// Common types
+export type ButtonFields = {
+  text: string;
+  link: string;
+  variant?: 'primary' | 'secondary' | 'outline';
+  size?: 'small' | 'medium' | 'large';
+  icon?: ContentfulEntry<AssetFields>;
+};
 
 // Hero Section
-export interface HeroSectionFields extends BaseSectionFields {
-  headline?: string;
-  subheadline?: string;
-  ctaPrimary?: {
-    text: string;
-    link: string;
-    variant?: 'primary' | 'secondary' | 'outline';
-  } | ContentfulButtonEntry;
-  ctaSecondary?: {
-    text: string;
-    link: string;
-    variant?: 'primary' | 'secondary' | 'outline';
-  } | ContentfulButtonEntry;
-  backgroundMedia?: ContentfulAsset;
-  layout?: 'centered' | 'split' | 'minimal';
-  ctaButton?: ContentfulButtonEntry;
-}
+export type HeroSectionFields = {
+  title: string;
+  subtitle?: string;
+  backgroundMedia?: ContentfulEntry<AssetFields>;
+  ctaButton?: ContentfulEntry<ButtonFields>;
+  alignment?: 'center' | 'left' | 'right';
+  backgroundColor?: string;
+  overlayOpacity?: number;
+};
 
 // Features Section
-export interface Feature {
+export interface FeatureItemFields {
   title: string;
   description: string;
-  icon?: Asset;
+  icon?: ContentfulEntry<AssetFields>;
+  link?: string;
 }
 
-export interface FeaturesSectionFields extends BaseSectionFields {
-  features: Feature[];
+export interface FeaturesSectionFields {
+  title: string;
+  subtitle?: string;
+  features: ContentfulEntry<FeatureItemFields>[];
   layout?: 'grid' | 'list' | 'cards';
   columns?: 1 | 2 | 3 | 4;
-  showIcons?: boolean;
+  backgroundColor?: string;
 }
 
 // Testimonial Types
-export interface Testimonial {
-  sys: {
-    id: string;
-    type: 'Entry';
-    createdAt: string;
-    updatedAt: string;
-    contentType: {
-      sys: {
-        id: string;
-      };
-    };
-  };
-  fields: {
+export interface TestimonialFields {
     quote: string;
     authorName: string;
     authorTitle?: string;
     rating?: number;
     company?: string;
-    authorImage?: ContentfulAsset;
-  };
+    authorImage?: ContentfulEntry<AssetFields>;
 }
 
-export interface TestimonialsSectionFields extends BaseSectionFields {
+export interface TestimonialsSectionFields {
   title?: string;
   subtitle?: string;
-  testimonials: Testimonial[];
+  testimonials: ContentfulEntry<TestimonialFields>[];
   layout?: 'grid' | 'carousel' | 'list';
   backgroundColor?: string;
 }
 
 // Product Specs Section
-export interface Spec {
+export interface ProductSpecFields {
   name: string;
   value: string;
-  icon?: Asset;
+  icon?: ContentfulEntry<AssetFields>;
   description?: string;
   unit?: string;
-  highlight?: boolean;
 }
 
-export interface ProductSpecsSectionFields extends BaseSectionFields {
-  specs: Spec[];
+export interface ProductSpecsSectionFields {
+  title: string;
+  subtitle?: string;
+  specs: ContentfulEntry<ProductSpecFields>[];
   layout?: 'table' | 'grid' | 'list';
-  columns?: 1 | 2 | 3 | 4;
-  showIcons?: boolean;
-  showUnits?: boolean;
-  highlightImportant?: boolean;
+  backgroundColor?: string;
 }
 
-// CTA Section
-export interface Button {
-  text: string;
-  link: string;
-  variant?: 'primary' | 'secondary' | 'outline';
-  icon?: Asset;
+export interface CTABlockFields {
+  title: string;
+  subtitle?: string;
+  primaryButton?: ContentfulEntry<ButtonFields>;
+  secondaryButton?: ContentfulEntry<ButtonFields>;
+  backgroundImage?: ContentfulEntry<AssetFields>;
+  alignment?: 'center' | 'left' | 'right';
 }
 
-export interface CTASectionFields extends BaseSectionFields {
-  headline: string;
-  description?: string;
-  buttons?: Button[];
-  backgroundImage?: Asset;
-  layout?: 'centered' | 'split' | 'minimal';
+export interface CTASectionFields {
+  title: string;
+  subtitle?: string;
+  ctaBlock?: ContentfulEntry<CTABlockFields>[];
+  backgroundImage?: ContentfulEntry<AssetFields>;
+  backgroundColor?: string;
   overlayOpacity?: number;
-  buttonAlignment?: 'left' | 'center' | 'right';
 }
 
 // Footer Section
-export interface SocialLink {
+export interface SocialLinkFields {
   platform: 'twitter' | 'facebook' | 'instagram' | 'linkedin' | 'youtube';
   url: string;
-  label?: string;
-  icon?: Asset;
+  icon?: ContentfulEntry<AssetFields>;
 }
 
-export interface FooterColumn {
+export interface FooterColumnFields {
   heading?: string;
-  links?: Link[];
+  links?: ContentfulEntry<NavigationLink>[];
   content?: string;
 }
 
-export interface NewsletterConfig {
-  headline: string;
-  description: string;
-  placeholder?: string;
-  buttonText?: string;
-  disclaimer?: string;
-  onSubscribe?: (email: string) => void;
-}
-
-export interface FooterSectionFields extends BaseSectionFields {
-  logo?: Asset;
+export interface FooterSectionFields {
+  title: string;
+  logo?: ContentfulEntry<AssetFields>;
   tagline?: string;
-  columns?: FooterColumn[];
-  socialLinks?: SocialLink[];
-  bottomLinks?: Link[];
-  newsletter?: NewsletterConfig;
+  columns?: ContentfulEntry<FooterColumnFields>[];
+  socialLinks?: ContentfulEntry<SocialLinkFields>[];
+  bottomLinks?: ContentfulEntry<NavigationLink>[];
   copyrightText?: string;
   layout?: 'standard' | 'minimal' | 'expanded';
+  backgroundColor?: string;
   accentColor?: string;
   showDivider?: boolean;
 }
@@ -241,16 +178,3 @@ export type SectionEntry =
   | ProductSpecsSectionEntry
   | CTASectionEntry
   | FooterSectionEntry;
-
-// Component Props Types
-export interface SectionProps<T extends BaseSectionFields> {
-  fields: T;
-  className?: string;
-}
-
-export interface HeroSectionProps extends SectionProps<HeroSectionFields> {}
-export interface FeaturesSectionProps extends SectionProps<FeaturesSectionFields> {}
-export interface TestimonialsSectionProps extends SectionProps<TestimonialsSectionFields> {}
-export interface ProductSpecsSectionProps extends SectionProps<ProductSpecsSectionFields> {}
-export interface CTASectionProps extends SectionProps<CTASectionFields> {}
-export interface FooterSectionProps extends SectionProps<FooterSectionFields> {} 
