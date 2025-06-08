@@ -1,5 +1,202 @@
 [
   {
+    "id": "heroSection",
+    "name": "Hero Section",
+    "displayField": "title",
+    "description": "",
+    "fields": [
+      {
+        "id": "title",
+        "name": "Title",
+        "type": "Symbol",
+        "required": true,
+        "localized": true,
+        "validations": []
+      },
+      {
+        "id": "subtitle",
+        "name": "Subtitle",
+        "type": "Text",
+        "required": false,
+        "localized": true,
+        "validations": []
+      },
+      {
+        "id": "backgroundMedia",
+        "name": "Background Media",
+        "type": "Link",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "linkMimetypeGroup": [
+              "image",
+              "video"
+            ]
+          }
+        ],
+        "linkType": "Asset"
+      },
+      {
+        "id": "ctaButton",
+        "name": "CTA Button",
+        "type": "Link",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "linkContentType": [
+              "button"
+            ]
+          }
+        ],
+        "linkType": "Entry",
+        "linkContentType": [
+          "button"
+        ]
+      },
+      {
+        "id": "alignment",
+        "name": "Alignment",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "left",
+              "center",
+              "right"
+            ]
+          }
+        ],
+        "defaultValue": {
+          "en-US": "center"
+        }
+      },
+      {
+        "id": "backgroundColor",
+        "name": "Background Color",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": []
+      },
+      {
+        "id": "overlayOpacity",
+        "name": "Overlay Opacity",
+        "type": "Number",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "range": {
+              "min": 0,
+              "max": 1
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "section",
+    "name": "Section",
+    "displayField": "type",
+    "description": "",
+    "fields": [
+      {
+        "id": "type",
+        "name": "Type",
+        "type": "Symbol",
+        "required": true,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "hero",
+              "features",
+              "testimonials",
+              "productSpecs",
+              "cta",
+              "footer"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "content",
+        "name": "Content",
+        "type": "Link",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "linkContentType": [
+              "ctaSection",
+              "featuresSection",
+              "heroSection",
+              "productSpecsSection",
+              "testimonialsSection",
+              "footerSection"
+            ]
+          }
+        ],
+        "linkType": "Entry",
+        "linkContentType": [
+          "ctaSection",
+          "featuresSection",
+          "heroSection",
+          "productSpecsSection",
+          "testimonialsSection",
+          "footerSection"
+        ]
+      },
+      {
+        "id": "padding",
+        "name": "Padding",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "small",
+              "medium",
+              "large"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "margin",
+        "name": "Margin",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": [
+          {
+            "in": [
+              "none",
+              "small",
+              "medium",
+              "large"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "backgroundColor",
+        "name": "Background Color",
+        "type": "Symbol",
+        "required": false,
+        "localized": false,
+        "validations": []
+      }
+    ]
+  },
+  {
     "id": "footerSection",
     "name": "Footer Section",
     "displayField": "title",
@@ -331,100 +528,6 @@
     ]
   },
   {
-    "id": "section",
-    "name": "Section",
-    "displayField": "type",
-    "description": "",
-    "fields": [
-      {
-        "id": "type",
-        "name": "Type",
-        "type": "Symbol",
-        "required": true,
-        "localized": false,
-        "validations": [
-          {
-            "in": [
-              "hero",
-              "features",
-              "testimonials",
-              "productSpecs",
-              "cta"
-            ]
-          }
-        ]
-      },
-      {
-        "id": "content",
-        "name": "Content",
-        "type": "Link",
-        "required": false,
-        "localized": false,
-        "validations": [
-          {
-            "linkContentType": [
-              "ctaSection",
-              "featuresSection",
-              "heroSection",
-              "productSpecsSection",
-              "testimonialsSection"
-            ]
-          }
-        ],
-        "linkType": "Entry",
-        "linkContentType": [
-          "ctaSection",
-          "featuresSection",
-          "heroSection",
-          "productSpecsSection",
-          "testimonialsSection"
-        ]
-      },
-      {
-        "id": "padding",
-        "name": "Padding",
-        "type": "Symbol",
-        "required": false,
-        "localized": false,
-        "validations": [
-          {
-            "in": [
-              "none",
-              "small",
-              "medium",
-              "large"
-            ]
-          }
-        ]
-      },
-      {
-        "id": "margin",
-        "name": "Margin",
-        "type": "Symbol",
-        "required": false,
-        "localized": false,
-        "validations": [
-          {
-            "in": [
-              "none",
-              "small",
-              "medium",
-              "large"
-            ]
-          }
-        ]
-      },
-      {
-        "id": "backgroundColor",
-        "name": "Background Color",
-        "type": "Symbol",
-        "required": false,
-        "localized": false,
-        "validations": []
-      }
-    ]
-  },
-  {
     "id": "productSpec",
     "name": "Product Spec",
     "displayField": "name",
@@ -476,106 +579,6 @@
         "required": false,
         "localized": true,
         "validations": []
-      }
-    ]
-  },
-  {
-    "id": "heroSection",
-    "name": "Hero Section",
-    "displayField": "title",
-    "description": "",
-    "fields": [
-      {
-        "id": "title",
-        "name": "Title",
-        "type": "Symbol",
-        "required": true,
-        "localized": true,
-        "validations": []
-      },
-      {
-        "id": "subtitle",
-        "name": "Subtitle",
-        "type": "Text",
-        "required": false,
-        "localized": true,
-        "validations": []
-      },
-      {
-        "id": "backgroundImagevideo",
-        "name": "Background Image/Video",
-        "type": "Link",
-        "required": false,
-        "localized": false,
-        "validations": [
-          {
-            "linkMimetypeGroup": [
-              "image",
-              "video"
-            ]
-          }
-        ],
-        "linkType": "Asset"
-      },
-      {
-        "id": "ctaButton",
-        "name": "CTA Button",
-        "type": "Link",
-        "required": false,
-        "localized": false,
-        "validations": [
-          {
-            "linkContentType": [
-              "button"
-            ]
-          }
-        ],
-        "linkType": "Entry",
-        "linkContentType": [
-          "button"
-        ]
-      },
-      {
-        "id": "alignment",
-        "name": "Alignment",
-        "type": "Symbol",
-        "required": false,
-        "localized": false,
-        "validations": [
-          {
-            "in": [
-              "left",
-              "center",
-              "right"
-            ]
-          }
-        ],
-        "defaultValue": {
-          "en-US": "center"
-        }
-      },
-      {
-        "id": "backgroundColor",
-        "name": "Background Color",
-        "type": "Symbol",
-        "required": false,
-        "localized": false,
-        "validations": []
-      },
-      {
-        "id": "overlayOpacity",
-        "name": "Overlay Opacity",
-        "type": "Number",
-        "required": false,
-        "localized": false,
-        "validations": [
-          {
-            "range": {
-              "min": 0,
-              "max": 1
-            }
-          }
-        ]
       }
     ]
   },

@@ -7,20 +7,45 @@ interface SectionProps {
   className?: string;
 }
 
-export function Section({ fields, children, className = '' }: SectionProps) {
-  const { backgroundColor } = fields;
+const getSpacingClasses = (size: string | undefined, type: 'padding' | 'margin') => {
+  if (!size || size === 'none') return '';
+  
+  const classes = {
+    padding: {
+      small: 'py-8 px-4',
+      medium: 'py-12 px-6',
+      large: 'py-16 px-8'
+    },
+    margin: {
+      small: 'my-4',
+      medium: 'my-8',
+      large: 'my-12'
+    }
+  };
+  
+  return classes[type][size as keyof typeof classes[typeof type]] || '';
+};
+
+export function Section({ 
+  fields, 
+  children, 
+  className = ''
+}: SectionProps) {
+  const { backgroundColor, padding, margin } = fields;
+  
+  const paddingClasses = getSpacingClasses(padding, 'padding');
+  const marginClasses = getSpacingClasses(margin, 'margin');
   
   return (
     <section 
-      className={`py-16 px-4 ${backgroundColor ? `bg-${backgroundColor}` : ''} ${className}`}
+      className={`
+        ${paddingClasses}
+        ${marginClasses}
+        ${backgroundColor ? `bg-[${backgroundColor}]` : ''}
+        ${className}
+      `.trim()}
     >
       <div className="max-w-7xl mx-auto">
-        {fields.title && (
-          <h2 className="text-3xl font-bold text-center mb-4">{fields.title}</h2>
-        )}
-        {fields.subtitle && (
-          <p className="text-lg text-center text-gray-600 mb-8">{fields.subtitle}</p>
-        )}
         {children}
       </div>
     </section>

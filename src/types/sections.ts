@@ -17,24 +17,81 @@ export interface BaseSectionFields {
   backgroundColor?: string;
   textColor?: string;
   order?: number;
+  alignment?: 'center' | 'left' | 'right';
+}
+
+// Contentful Button Entry
+export interface ContentfulButtonEntry {
+  metadata: { tags: string[]; concepts: string[] };
+  sys: {
+    id: string;
+    type: string;
+    createdAt: string;
+    updatedAt: string;
+    contentType: { sys: { id: string } };
+  };
+  fields: {
+    text: string;
+    link: string;
+    variant?: 'primary' | 'secondary' | 'outline';
+    size?: string;
+  };
+}
+
+// Contentful Asset Types
+export interface ContentfulAssetFile {
+  url: string;
+  details: {
+    size: number;
+    image?: {
+      width: number;
+      height: number;
+    };
+  };
+  fileName: string;
+  contentType: string;
+}
+
+export interface ContentfulAsset {
+  metadata: {
+    tags: any[];
+    concepts: any[];
+  };
+  sys: {
+    space: { sys: any };
+    id: string;
+    type: 'Asset';
+    createdAt: string;
+    updatedAt: string;
+    environment: { sys: any };
+    publishedVersion: number;
+    revision: number;
+    locale: string;
+  };
+  fields: {
+    title: string;
+    description: string;
+    file: ContentfulAssetFile;
+  };
 }
 
 // Hero Section
 export interface HeroSectionFields extends BaseSectionFields {
-  headline: string;
-  subheadline: string;
+  headline?: string;
+  subheadline?: string;
   ctaPrimary?: {
     text: string;
     link: string;
     variant?: 'primary' | 'secondary' | 'outline';
-  };
+  } | ContentfulButtonEntry;
   ctaSecondary?: {
     text: string;
     link: string;
     variant?: 'primary' | 'secondary' | 'outline';
-  };
-  backgroundImage?: Asset;
+  } | ContentfulButtonEntry;
+  backgroundMedia?: ContentfulAsset;
   layout?: 'centered' | 'split' | 'minimal';
+  ctaButton?: ContentfulButtonEntry;
 }
 
 // Features Section
@@ -51,22 +108,35 @@ export interface FeaturesSectionFields extends BaseSectionFields {
   showIcons?: boolean;
 }
 
-// Testimonials Section
+// Testimonial Types
 export interface Testimonial {
-  quote: string;
-  authorName: string;
-  authorTitle?: string;
-  authorImage?: Asset;
-  rating?: 1 | 2 | 3 | 4 | 5;
-  company?: string;
+  sys: {
+    id: string;
+    type: 'Entry';
+    createdAt: string;
+    updatedAt: string;
+    contentType: {
+      sys: {
+        id: string;
+      };
+    };
+  };
+  fields: {
+    quote: string;
+    authorName: string;
+    authorTitle?: string;
+    rating?: number;
+    company?: string;
+    authorImage?: ContentfulAsset;
+  };
 }
 
 export interface TestimonialsSectionFields extends BaseSectionFields {
+  title?: string;
+  subtitle?: string;
   testimonials: Testimonial[];
   layout?: 'grid' | 'carousel' | 'list';
-  columns?: 1 | 2 | 3;
-  showRatings?: boolean;
-  showCompany?: boolean;
+  backgroundColor?: string;
 }
 
 // Product Specs Section

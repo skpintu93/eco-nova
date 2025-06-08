@@ -1,75 +1,89 @@
 import { type TestimonialsSectionProps } from '@/types/sections';
 import { Section } from './Section';
+import { StarIcon } from '@heroicons/react/24/solid';
 
 export function TestimonialsSection({ fields, className }: TestimonialsSectionProps) {
-  const { 
-    testimonials: rawTestimonials, 
-    layout = 'grid', 
-    columns = 3,
-    showRatings = true,
-    showCompany = true
-  } = fields;
+  const { title, subtitle, testimonials, layout = 'grid', backgroundColor } = fields;
 
-  // Ensure testimonials is always an array
-  const testimonials = Array.isArray(rawTestimonials) ? rawTestimonials : [rawTestimonials];
+  const renderRating = (rating?: number) => {
+    if (!rating) return null;
+    return (
+      <div className="flex gap-1 mb-2">
+        {[...Array(5)].map((_, i) => (
+          <StarIcon
+            key={i}
+            className={`w-5 h-5 ${
+              i < (rating || 0) ? 'text-yellow-400' : 'text-gray-300'
+            }`}
+          />
+        ))}
+      </div>
+    );
+  };
 
-  console.log(testimonials,  'testimonials');
+  const renderTestimonial = (testimonial: TestimonialsSectionProps['fields']['testimonials'][0]) => {
+    const { quote, authorName, authorTitle, rating, company, authorImage } = testimonial.fields;
+    
+    return (
+      <div className="bg-white rounded-lg shadow-lg p-6 h-full flex flex-col">
+        {renderRating(rating)}
+        <blockquote className="flex-1">
+          <p className="text-gray-600 italic mb-4">"{quote}"</p>
+        </blockquote>
+        <div className="flex items-center gap-4 mt-4">
+          {authorImage && (
+            <img
+              src={`https:${authorImage.fields.file.url}`}
+              alt={authorName}
+              className="w-12 h-12 rounded-full object-cover"
+            />
+          )}
+          <div>
+            <p className="font-semibold text-gray-900">{authorName}</p>
+            {authorTitle && <p className="text-sm text-gray-600">{authorTitle}</p>}
+            {company && <p className="text-sm text-gray-500">{company}</p>}
+          </div>
+        </div>
+      </div>
+    );
+  };
 
-  const containerClass = layout === 'list' 
-    ? 'space-y-8'
-    : layout === 'carousel'
-    ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 overflow-x-auto'
-    : `grid grid-cols-1 md:grid-cols-${columns} gap-8`;
+  const getLayoutClasses = () => {
+    switch (layout) {
+      case 'grid':
+        return 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6';
+      case 'list':
+        return 'space-y-6 max-w-3xl mx-auto';
+      case 'carousel':
+        return 'flex overflow-x-auto gap-6 pb-6 snap-x snap-mandatory';
+      default:
+        return 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6';
+    }
+  };
 
   return (
-    <Section fields={fields} className={className}>
-      <div className={containerClass}>
-        {testimonials.map((testimonial, index) => (
-          <div 
-            key={index}
-            className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow"
+    <Section
+      fields={fields}
+      className={`${className ?? ''}`}
+    >
+      {(title || subtitle) && (
+        <div className="text-center mb-12">
+          {title && (
+            <h2 className="text-3xl font-bold mb-4">{title}</h2>
+          )}
+          {subtitle && (
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">{subtitle}</p>
+          )}
+        </div>
+      )}
+
+      <div className={getLayoutClasses()}>
+        {testimonials.map((testimonial) => (
+          <div
+            key={testimonial.sys.id}
+            className={layout === 'carousel' ? 'snap-start flex-none w-full md:w-1/2 lg:w-1/3' : ''}
           >
-            {showRatings && testimonial.rating && (
-              <div className="flex gap-1 mb-4">
-                {[...Array(5)].map((_, i) => (
-                  <svg
-                    key={i}
-                    className={`w-5 h-5 ${
-                      i < testimonial.rating! ? 'text-yellow-400' : 'text-gray-300'
-                    }`}
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                  >
-                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                  </svg>
-                ))}
-              </div>
-            )}
-            
-            <blockquote className="text-gray-700 mb-4">
-              "{testimonial.quote}"
-            </blockquote>
-            
-            <div className="flex items-center gap-4">
-              {testimonial.authorImage && (
-                <img
-                  src={testimonial.authorImage.url}
-                  alt={testimonial.authorImage.alt}
-                  className="w-12 h-12 rounded-full object-cover"
-                  width={testimonial.authorImage.width}
-                  height={testimonial.authorImage.height}
-                />
-              )}
-              <div>
-                <p className="font-semibold">{testimonial.authorName}</p>
-                {testimonial.authorTitle && (
-                  <p className="text-sm text-gray-600">{testimonial.authorTitle}</p>
-                )}
-                {showCompany && testimonial.company && (
-                  <p className="text-sm text-gray-500">{testimonial.company}</p>
-                )}
-              </div>
-            </div>
+            {renderTestimonial(testimonial)}
           </div>
         ))}
       </div>
