@@ -48,11 +48,12 @@ export async function CTASection({ section }: { section: ContentfulEntry<Section
               backgroundPosition: 'center',
             }}
           >
-            <div 
-              className={`absolute inset-0 ${
-                backgroundColor ? `bg-${backgroundColor}` : 'bg-black'
-              }`}
-              style={{ opacity: overlayOpacity }}
+            <div
+              className="absolute inset-0"
+              style={{
+                backgroundColor: backgroundColor || 'black',
+                opacity: overlayOpacity,
+              }}
             />
           </div>
         )}
